@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import { Blossom } from "@/components/blossom";
 import { Reveal } from "@/components/reveal";
 import { GallerySlot } from "@/components/gallery-slot";
+import { GalleryCard } from "@/components/gallery-card";
 import { ActionLink } from "@/components/action";
+import { getGallery } from "@/lib/gallery";
 
 export const metadata: Metadata = {
   title: "Galeri",
 };
 
-export default function GaleriPage() {
+export const dynamic = "force-dynamic";
+
+export default async function GaleriPage() {
+  const items = await getGallery();
+
   return (
     <main>
       <section className="relative overflow-hidden border-b border-line-soft">
@@ -19,40 +25,53 @@ export default function GaleriPage() {
             Karya anggota, satu tempat.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Halaman ini akan memuat ilustrasi dan karakter buatan anggota. Untuk
-            sekarang, belum ada karya yang dipublikasikan.
+            Ilustrasi dan karakter buatan anggota clan. Karya terbaru tampil
+            paling depan.
           </p>
         </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <Reveal>
-          <div className="flex flex-col items-start gap-3 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="font-heading text-base font-bold">
-                Galeri masih kosong
-              </h2>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                Karya pertama akan tampil di sini setelah anggota mengirimkannya.
-              </p>
-            </div>
-            <ActionLink href="/seleksi" className="shrink-0">
-              Gabung dan kirim karya
-            </ActionLink>
-          </div>
-        </Reveal>
+        {items.length === 0 ? (
+          <>
+            <Reveal>
+              <div className="flex flex-col items-start gap-3 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="font-heading text-base font-bold">
+                    Galeri masih kosong
+                  </h2>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">
+                    Karya pertama akan tampil di sini setelah ditambahkan lewat
+                    panel admin.
+                  </p>
+                </div>
+                <ActionLink href="/seleksi" className="shrink-0">
+                  Gabung dan kirim karya
+                </ActionLink>
+              </div>
+            </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <GallerySlot key={index} className="aspect-[3/4]" />
+            <Reveal delay={0.1}>
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <GallerySlot key={index} className="aspect-[3/4]" />
+                ))}
+              </div>
+            </Reveal>
+
+            <p className="mt-6 text-xs leading-relaxed text-muted">
+              Kotak di atas adalah slot kosong, bukan contoh karya.
+            </p>
+          </>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {items.map((item, index) => (
+              <Reveal key={item.id} delay={(index % 3) * 0.05}>
+                <GalleryCard item={item} priority={index < 3} />
+              </Reveal>
             ))}
           </div>
-        </Reveal>
-
-        <p className="mt-6 text-xs leading-relaxed text-muted">
-          Kotak di atas adalah slot kosong, bukan contoh karya.
-        </p>
+        )}
       </section>
     </main>
   );

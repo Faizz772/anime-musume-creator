@@ -5,9 +5,15 @@ import { Reveal } from "@/components/reveal";
 import { ActionLink } from "@/components/action";
 import { MemberAvatar } from "@/components/member-avatar";
 import { GallerySlot } from "@/components/gallery-slot";
+import { GalleryCard } from "@/components/gallery-card";
 import { admins, coreTeam, owner, WHATSAPP_URL } from "@/lib/clan";
+import { getGallery } from "@/lib/gallery";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const gallery = await getGallery(3);
+
   return (
     <main>
       <section className="relative overflow-hidden">
@@ -159,8 +165,9 @@ export default function HomePage() {
               Karya anggota, satu tempat.
             </h2>
             <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
-              Galeri masih disiapkan. Begitu karya pertama masuk, akan tampil di
-              halaman ini.
+              {gallery.length > 0
+                ? "Karya terbaru dari anggota clan. Buka galeri untuk melihat semuanya."
+                : "Galeri masih disiapkan. Begitu karya pertama masuk, akan tampil di halaman ini."}
             </p>
             <Link
               href="/galeri"
@@ -171,9 +178,13 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="grid grid-cols-3 gap-3">
-              <GallerySlot className="aspect-[3/4]" />
-              <GallerySlot className="aspect-[3/4]" />
-              <GallerySlot className="aspect-[3/4]" />
+              {gallery.length > 0
+                ? gallery.map((item) => (
+                    <GalleryCard key={item.id} item={item} />
+                  ))
+                : Array.from({ length: 3 }).map((_, index) => (
+                    <GallerySlot key={index} className="aspect-[3/4]" />
+                  ))}
             </div>
           </Reveal>
         </div>

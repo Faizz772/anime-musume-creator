@@ -56,7 +56,15 @@ export function SiteFooter() {
 
         <div className="mt-10 flex flex-col gap-2 border-t border-line-soft pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Clan Anime Musume Creator</p>
-          <p>Dijaga oleh tim inti dan anggota.</p>
+          <div className="flex items-center gap-4">
+            <p>Dijaga oleh tim inti dan anggota.</p>
+            <Link
+              href="/admin"
+              className="text-muted transition-colors hover:text-text"
+            >
+              Admin
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
