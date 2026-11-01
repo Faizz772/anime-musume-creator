@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Blossom } from "./blossom";
+import Image from "next/image";
 import { navItems, WHATSAPP_URL } from "@/lib/clan";
 
 export function SiteFooter() {
@@ -9,8 +9,14 @@ export function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-[1.5fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
-              <span className="grid size-8 place-items-center rounded-lg border border-accent/30 bg-accent/10 text-accent">
-                <Blossom className="size-4" />
+              <span className="relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-lg border border-accent/30">
+                <Image
+                  src="/logo.webp"
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="size-full scale-125 object-cover"
+                />
               </span>
               <span className="font-heading text-sm font-bold">
                 Clan Anime Musume Creator

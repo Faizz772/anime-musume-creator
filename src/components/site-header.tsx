@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Blossom } from "./blossom";
 import { navItems } from "@/lib/clan";
 
 function isActive(pathname: string, href: string) {
@@ -28,8 +28,15 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-line-soft bg-night/80 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-accent/30 bg-accent/10 text-accent">
-            <Blossom className="size-5" />
+          <span className="logo-mark relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-lg border border-accent/30">
+            <Image
+              src="/logo.webp"
+              alt=""
+              width={44}
+              height={44}
+              priority
+              className="size-full scale-125 object-cover"
+            />
           </span>
           <span className="leading-tight">
             <span className="block font-heading text-[13px] font-bold tracking-tight sm:text-sm">
