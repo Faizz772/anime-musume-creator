@@ -38,18 +38,22 @@ export default function TimPage() {
                   <RoleBadge role="Owner" />
                   <span className="font-heading text-xs text-muted">01</span>
                 </div>
-                <div className="mt-10 flex items-center gap-4">
+                <div className="mt-8 flex items-center gap-4">
                   <MemberAvatar
+                    src={owner.avatar}
                     initials={owner.initials}
                     className="size-16 text-xl"
                   />
                   <div>
-                    <p className="text-xs text-muted">Pemegang arah clan</p>
+                    <p className="text-xs text-accent">{owner.username}</p>
                     <h2 className="font-heading text-2xl font-bold sm:text-3xl">
                       {owner.name}
                     </h2>
                   </div>
                 </div>
+                <p className="mt-5 max-w-md text-sm leading-relaxed text-muted">
+                  {owner.task}
+                </p>
               </div>
             </div>
           </Reveal>
@@ -60,22 +64,28 @@ export default function TimPage() {
                 {admins.map((member, index) => (
                   <li
                     key={member.name}
-                    className="flex items-center gap-4 px-5 py-4"
+                    className="flex items-start gap-4 px-5 py-5"
                   >
-                    <span className="w-5 font-heading text-xs text-muted">
+                    <span className="mt-1 w-5 shrink-0 font-heading text-xs text-muted">
                       {String(index + 2).padStart(2, "0")}
                     </span>
                     <MemberAvatar
+                      src={member.avatar}
                       initials={member.initials}
                       variant="quiet"
-                      className="size-10 text-sm"
+                      className="size-11 text-sm"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="font-heading text-sm font-bold">
-                        {member.name}
-                      </p>
-                      <p className="text-xs text-muted">
-                        Membantu jalannya clan
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <p className="font-heading text-sm font-bold">
+                          {member.name}
+                        </p>
+                        <span className="text-xs text-accent">
+                          {member.username}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs leading-relaxed text-muted">
+                        {member.task}
                       </p>
                     </div>
                     <RoleBadge role="Admin" />

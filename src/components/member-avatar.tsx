@@ -1,11 +1,15 @@
+import Image from "next/image";
+
 type MemberAvatarProps = {
   initials: string;
+  src?: string;
   variant?: "solid" | "quiet";
   className?: string;
 };
 
 export function MemberAvatar({
   initials,
+  src,
   variant = "solid",
   className = "",
 }: MemberAvatarProps) {
@@ -17,9 +21,13 @@ export function MemberAvatar({
   return (
     <span
       aria-hidden="true"
-      className={`grid shrink-0 place-items-center rounded-lg font-heading font-bold ${tone} ${className}`}
+      className={`relative grid shrink-0 place-items-center overflow-hidden rounded-lg font-heading font-bold ${tone} ${className}`}
     >
-      {initials}
+      {src ? (
+        <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+      ) : (
+        initials
+      )}
     </span>
   );
 }

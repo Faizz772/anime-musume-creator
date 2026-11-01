@@ -116,19 +116,16 @@ export default async function HomePage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <MemberAvatar
+                  src={member.avatar}
                   initials={member.initials}
                   variant={member.role === "Owner" ? "solid" : "quiet"}
-                  className="size-9 text-xs"
+                  className="size-10 text-xs"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="font-heading text-sm font-bold">
                     {member.name}
                   </p>
-                  <p className="text-xs text-muted">
-                    {member.role === "Owner"
-                      ? "Pemegang arah clan"
-                      : "Membantu jalannya clan"}
-                  </p>
+                  <p className="text-xs text-accent">{member.username}</p>
                 </div>
                 <RoleBadge role={member.role} />
               </li>
