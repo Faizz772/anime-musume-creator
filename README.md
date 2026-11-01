@@ -1,6 +1,6 @@
 # Clan Anime Musume Creator
 
-Website resmi Clan Anime Musume Creator. Berisi halaman Home, Tentang, Tim Inti, Galeri, Seleksi, Kontak, dan panel admin untuk menambah karya galeri.
+Website resmi Clan Anime Musume Creator. Berisi halaman Home, Tentang, Tim Inti, Galeri, Seleksi, Kontak, dan panel admin untuk menambah karya galeri berupa gambar atau video MP4.
 
 ## Stack
 
@@ -45,9 +45,14 @@ Di Termux/Android (arm64) Turbopack belum tersedia, script sudah memakai webpack
 ## Menambah karya
 
 1. Buka `/admin`, masukkan password admin.
-2. Isi judul, tag (pisahkan dengan koma), dan pilih gambar.
+2. Isi judul, tag (pisahkan dengan koma), lalu pilih gambar atau video MP4.
+   - Gambar: JPG, PNG, WEBP, GIF, AVIF, maksimal 8 MB.
+   - Video: MP4, maksimal 50 MB.
 3. Klik "Tambah ke galeri". Karya langsung tampil di `/galeri` dan beranda.
 4. Karya bisa dihapus dari daftar di panel admin.
+
+File diunggah langsung dari browser ke Supabase Storage lewat signed upload URL,
+jadi tidak terkena batas body request Vercel (sekitar 4.5 MB).
 
 ## Deploy ke Vercel
 

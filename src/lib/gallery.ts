@@ -1,12 +1,7 @@
 import { getSupabaseAdmin } from "./supabase";
+import type { GalleryItem } from "./gallery-types";
 
-export type GalleryItem = {
-  id: string;
-  title: string;
-  image_url: string;
-  tags: string[];
-  posted_at: string;
-};
+export type { GalleryItem } from "./gallery-types";
 
 export async function getGallery(limit?: number): Promise<GalleryItem[]> {
   const supabase = getSupabaseAdmin();

@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import type { GalleryItem } from "@/lib/gallery";
+import { isVideoUrl, type GalleryItem } from "@/lib/gallery-types";
 
 type Status = { kind: "ok" | "error"; text: string } | null;
+
+const IMAGE_MAX = 8 * 1024 * 1024;
+const VIDEO_MAX = 50 * 1024 * 1024;
 
 export function AdminDashboard({
   initialItems,
@@ -23,6 +26,8 @@ export function AdminDashboard({
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>(null);
+
+  const fileIsVideo = file?.type.startsWith("video/") ?? false;
 
   function onFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const next = event.target.files?.[0] ?? null;
@@ -50,20 +55,71 @@ export function AdminDashboard({
     }
 
     if (!file) {
-      setStatus({ kind: "error", text: "Pilih gambar karya dulu." });
+      setStatus({ kind: "error", text: "Pilih gambar atau video dulu." });
+      return;
+    }
+
+    const maxBytes = file.type.startsWith("video/") ? VIDEO_MAX : IMAGE_MAX;
+    if (file.size > maxBytes) {
+      setStatus({
+        kind: "error",
+        text:
+          file.type.startsWith("video/")
+            ? "Ukuran video maksimal 50 MB."
+            : "Ukuran gambar maksimal 8 MB.",
+      });
       return;
     }
 
     setBusy(true);
 
-    const body = new FormData();
-    body.set("title", title.trim());
-    body.set("tags", tags);
-    body.set("image", file);
+    const urlResponse = await fetch("/api/admin/upload-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contentType: file.type }),
+    });
+
+    const urlData = (await urlResponse.json().catch(() => ({}))) as {
+      signedUrl?: string;
+      path?: string;
+      error?: string;
+    };
+
+    if (!urlResponse.ok || !urlData.signedUrl || !urlData.path) {
+      setBusy(false);
+      setStatus({
+        kind: "error",
+        text: urlData.error ?? "Gagal menyiapkan upload.",
+      });
+      return;
+    }
+
+    const uploadResponse = await fetch(urlData.signedUrl, {
+      method: "PUT",
+      headers: {
+        "content-type": file.type,
+        "x-upsert": "false",
+      },
+      body: file,
+    });
+
+    if (!uploadResponse.ok) {
+      setBusy(false);
+      setStatus({
+        kind: "error",
+        text: "Gagal mengunggah file ke penyimpanan.",
+      });
+      return;
+    }
 
     const response = await fetch("/api/admin/gallery", {
       method: "POST",
-      body,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title.trim(),
+        tags,
+        path: urlData.path,
+      }),
     });
 
     const data = (await response.json().catch(() => ({}))) as {
@@ -125,8 +181,8 @@ export function AdminDashboard({
             Panel admin
           </h1>
           <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted">
-            Tambah karya ke galeri. Perubahan langsung tampil di halaman Galeri
-            dan beranda.
+            Tambah karya berupa gambar atau video MP4. Perubahan langsung tampil
+            di halaman Galeri dan beranda.
           </p>
         </div>
         <button
@@ -201,39 +257,49 @@ export function AdminDashboard({
 
             <div>
               <span className="mb-1.5 block text-sm font-semibold">
-                Gambar
+                Gambar atau video
               </span>
               <input
                 ref={fileInputRef}
-                id="image"
-                name="image"
+                id="media"
+                name="media"
                 type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/avif,video/mp4"
                 onChange={onFileChange}
                 className="peer sr-only"
               />
               <label
-                htmlFor="image"
+                htmlFor="media"
                 className="block cursor-pointer rounded-xl border border-dashed border-line bg-night-2 p-3 transition-colors hover:border-pink/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-pink"
               >
                 {preview ? (
                   <span className="relative block aspect-[4/3] overflow-hidden rounded-lg">
-                    <Image
-                      src={preview}
-                      alt="Pratinjau gambar yang dipilih"
-                      fill
-                      unoptimized
-                      sizes="(max-width: 1024px) 100vw, 40vw"
-                      className="object-cover"
-                    />
+                    {fileIsVideo ? (
+                      <video
+                        src={preview}
+                        controls
+                        muted
+                        playsInline
+                        className="absolute inset-0 size-full object-cover"
+                      />
+                    ) : (
+                      <Image
+                        src={preview}
+                        alt="Pratinjau media yang dipilih"
+                        fill
+                        unoptimized
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                        className="object-cover"
+                      />
+                    )}
                   </span>
                 ) : (
                   <span className="flex flex-col items-center justify-center gap-1 py-6 text-center">
                     <span className="font-heading text-sm font-semibold">
-                      Pilih gambar
+                      Pilih gambar atau video
                     </span>
                     <span className="text-xs text-muted">
-                      JPG, PNG, WEBP, GIF, atau AVIF. Maksimal 8 MB.
+                      JPG, PNG, WEBP, GIF, AVIF (maks 8 MB) atau MP4 (maks 50 MB).
                     </span>
                   </span>
                 )}
@@ -275,13 +341,29 @@ export function AdminDashboard({
               {items.map((item) => (
                 <li key={item.id} className="flex items-center gap-4 py-4">
                   <span className="relative block size-16 shrink-0 overflow-hidden rounded-lg bg-night-2">
-                    <Image
-                      src={item.image_url}
-                      alt={item.title}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                    />
+                    {isVideoUrl(item.image_url) ? (
+                      <>
+                        <video
+                          src={item.image_url}
+                          muted
+                          playsInline
+                          preload="metadata"
+                          aria-label={item.title}
+                          className="absolute inset-0 size-full object-cover"
+                        />
+                        <span className="absolute bottom-1 left-1 rounded bg-night/80 px-1.5 py-0.5 text-[9px] font-semibold text-text">
+                          MP4
+                        </span>
+                      </>
+                    ) : (
+                      <Image
+                        src={item.image_url}
+                        alt={item.title}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                      />
+                    )}
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-heading text-sm font-bold">

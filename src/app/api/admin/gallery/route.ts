@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { isAdmin } from "@/lib/admin-auth";
@@ -6,23 +5,8 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
-const ALLOWED_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/avif",
-]);
-
-const MAX_BYTES = 8 * 1024 * 1024;
-
-function extensionFor(type: string) {
-  if (type === "image/png") return "png";
-  if (type === "image/webp") return "webp";
-  if (type === "image/gif") return "gif";
-  if (type === "image/avif") return "avif";
-  return "jpg";
-}
+const PATH_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(jpg|png|webp|gif|avif|mp4)$/;
 
 export async function POST(request: Request) {
   if (!(await isAdmin())) {
@@ -37,45 +21,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const form = await request.formData();
-  const title = String(form.get("title") ?? "").trim();
-  const tagsRaw = String(form.get("tags") ?? "");
-  const image = form.get("image");
+  const body = (await request.json().catch(() => null)) as {
+    title?: unknown;
+    tags?: unknown;
+    path?: unknown;
+  } | null;
+
+  const title = typeof body?.title === "string" ? body.title.trim() : "";
+  const path = typeof body?.path === "string" ? body.path : "";
+  const tagsRaw = typeof body?.tags === "string" ? body.tags : "";
 
   if (!title) {
     return NextResponse.json({ error: "Judul wajib diisi." }, { status: 400 });
   }
 
-  if (!(image instanceof File) || image.size === 0) {
-    return NextResponse.json({ error: "Gambar wajib diunggah." }, { status: 400 });
-  }
-
-  if (!ALLOWED_TYPES.has(image.type)) {
-    return NextResponse.json(
-      { error: "Format gambar harus JPG, PNG, WEBP, GIF, atau AVIF." },
-      { status: 415 },
-    );
-  }
-
-  if (image.size > MAX_BYTES) {
-    return NextResponse.json(
-      { error: "Ukuran gambar maksimal 8 MB." },
-      { status: 413 },
-    );
-  }
-
-  const path = `${randomUUID()}.${extensionFor(image.type)}`;
-  const bytes = Buffer.from(await image.arrayBuffer());
-
-  const { error: uploadError } = await supabase.storage
-    .from("gallery")
-    .upload(path, bytes, { contentType: image.type, upsert: false });
-
-  if (uploadError) {
-    return NextResponse.json(
-      { error: `Gagal mengunggah gambar: ${uploadError.message}` },
-      { status: 500 },
-    );
+  if (!PATH_PATTERN.test(path)) {
+    return NextResponse.json({ error: "Path file tidak valid." }, { status: 400 });
   }
 
   const { data: publicUrl } = supabase.storage
