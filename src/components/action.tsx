@@ -2,13 +2,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition-colors";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors duration-200";
 
 const styles = {
-  primary:
-    "bg-gradient-to-r from-pink to-purple text-night hover:from-blossom hover:to-pink",
+  primary: "bg-accent text-night hover:bg-ice",
   secondary:
-    "border border-line bg-surface text-text hover:border-pink/50 hover:bg-surface-2",
+    "border border-line bg-transparent text-text hover:border-accent/60 hover:bg-surface",
 } as const;
 
 type ActionProps = {

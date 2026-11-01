@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 import { GallerySlot } from "@/components/gallery-slot";
 import { GalleryCard } from "@/components/gallery-card";
 import { ActionLink } from "@/components/action";
+import { SectionLabel } from "@/components/section-label";
 import { getGallery } from "@/lib/gallery";
 
 export const metadata: Metadata = {
@@ -18,10 +19,10 @@ export default async function GaleriPage() {
   return (
     <main>
       <section className="relative overflow-hidden border-b border-line-soft">
-        <Blossom className="absolute -right-20 -top-20 size-64 text-purple/10" />
+        <Blossom className="absolute -right-20 -top-20 size-72 text-accent/[0.07]" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <p className="font-heading text-sm font-bold text-pink">Galeri</p>
-          <h1 className="mt-3 max-w-2xl font-heading text-3xl font-extrabold leading-tight sm:text-5xl">
+          <SectionLabel>03 / Galeri</SectionLabel>
+          <h1 className="mt-6 max-w-2xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
             Karya anggota, satu tempat.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
@@ -31,11 +32,11 @@ export default async function GaleriPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
         {items.length === 0 ? (
           <>
             <Reveal>
-              <div className="flex flex-col items-start gap-3 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col items-start gap-4 border-y border-line-soft py-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="font-heading text-base font-bold">
                     Galeri masih kosong

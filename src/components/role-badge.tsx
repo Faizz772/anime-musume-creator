@@ -7,16 +7,12 @@ export function RoleBadge({ role }: RoleBadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${
+      className={`inline-flex items-center rounded border px-2 py-0.5 text-[11px] font-semibold ${
         isOwner
-          ? "border-pink/40 bg-pink/10 text-blossom"
-          : "border-purple/40 bg-purple/10 text-purple"
+          ? "border-accent bg-accent text-night"
+          : "border-accent/30 bg-accent/10 text-accent"
       }`}
     >
-      <span
-        aria-hidden="true"
-        className={`size-1.5 rounded-full ${isOwner ? "bg-pink" : "bg-purple"}`}
-      />
       {role}
     </span>
   );

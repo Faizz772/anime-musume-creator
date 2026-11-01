@@ -176,7 +176,7 @@ export function AdminDashboard({
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-heading text-sm font-bold text-pink">Admin</p>
+          <p className="font-heading text-sm font-bold text-accent">Admin</p>
           <h1 className="mt-2 font-heading text-3xl font-extrabold">
             Panel admin
           </h1>
@@ -188,7 +188,7 @@ export function AdminDashboard({
         <button
           type="button"
           onClick={onLogout}
-          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-text transition-colors hover:border-pink/50 hover:bg-surface-2"
+          className="inline-flex min-h-11 items-center justify-center rounded-lg border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-text transition-colors hover:border-accent/50 hover:bg-surface-2"
         >
           Keluar
         </button>
@@ -197,10 +197,10 @@ export function AdminDashboard({
       {status ? (
         <p
           role={status.kind === "error" ? "alert" : "status"}
-          className={`mt-6 rounded-xl border px-4 py-3 text-sm ${
+          className={`mt-6 rounded-lg border px-4 py-3 text-sm ${
             status.kind === "error"
-              ? "border-pink/40 bg-pink/10 text-blossom"
-              : "border-purple/40 bg-purple/10 text-purple"
+              ? "border-red-400/40 bg-red-400/10 text-red-300"
+              : "border-accent/40 bg-accent/10 text-ice"
           }`}
         >
           {status.text}
@@ -210,7 +210,7 @@ export function AdminDashboard({
       <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <form
           onSubmit={onSubmit}
-          className="h-fit rounded-3xl border border-line bg-surface p-6"
+          className="h-fit rounded-lg border border-line bg-surface p-6"
         >
           <h2 className="font-heading text-lg font-bold">Tambah karya</h2>
 
@@ -230,7 +230,7 @@ export function AdminDashboard({
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
                 placeholder="Contoh: Musume di bawah sakura"
-                className="w-full rounded-xl border border-line bg-night-2 px-4 py-3 text-sm text-text placeholder:text-muted focus:border-pink/60 focus:outline-none"
+                className="w-full rounded-lg border border-line bg-night-2 px-4 py-3 text-sm text-text placeholder:text-muted focus:border-accent/60 focus:outline-none"
               />
             </div>
 
@@ -248,7 +248,7 @@ export function AdminDashboard({
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
                 placeholder="ilustrasi, digital, orisinal"
-                className="w-full rounded-xl border border-line bg-night-2 px-4 py-3 text-sm text-text placeholder:text-muted focus:border-pink/60 focus:outline-none"
+                className="w-full rounded-lg border border-line bg-night-2 px-4 py-3 text-sm text-text placeholder:text-muted focus:border-accent/60 focus:outline-none"
               />
               <p className="mt-1.5 text-xs text-muted">
                 Pisahkan dengan koma, maksimal 8 tag.
@@ -270,7 +270,7 @@ export function AdminDashboard({
               />
               <label
                 htmlFor="media"
-                className="block cursor-pointer rounded-xl border border-dashed border-line bg-night-2 p-3 transition-colors hover:border-pink/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-pink"
+                className="block cursor-pointer rounded-lg border border-dashed border-line bg-night-2 p-3 transition-colors hover:border-accent/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent"
               >
                 {preview ? (
                   <span className="relative block aspect-[4/3] overflow-hidden rounded-lg">
@@ -312,23 +312,23 @@ export function AdminDashboard({
             <button
               type="submit"
               disabled={busy}
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-pink to-purple px-5 py-3 text-sm font-semibold text-night transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-night transition-colors hover:bg-ice disabled:opacity-60"
             >
               {busy ? "Mengunggah..." : "Tambah ke galeri"}
             </button>
           </div>
         </form>
 
-        <section className="rounded-3xl border border-line bg-surface p-6">
+        <section className="rounded-lg border border-line bg-surface p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-heading text-lg font-bold">Karya tersimpan</h2>
-            <span className="rounded-full border border-line px-2.5 py-1 text-xs text-muted">
+            <span className="rounded border border-line px-2 py-0.5 text-xs text-muted">
               {items.length}
             </span>
           </div>
 
           {items.length === 0 ? (
-            <div className="mt-6 rounded-2xl border border-dashed border-line bg-night-2 p-6 text-center">
+            <div className="mt-6 rounded-lg border border-dashed border-line bg-night-2 p-6 text-center">
               <p className="font-heading text-sm font-semibold">
                 Belum ada karya
               </p>
@@ -379,7 +379,7 @@ export function AdminDashboard({
                     type="button"
                     onClick={() => onDelete(item)}
                     disabled={deleting === item.id}
-                    className="shrink-0 rounded-lg border border-line px-3 py-2 text-xs font-semibold text-muted transition-colors hover:border-pink/50 hover:text-blossom disabled:opacity-60"
+                    className="shrink-0 rounded border border-line px-3 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent/50 hover:text-ice disabled:opacity-60"
                   >
                     {deleting === item.id ? "Menghapus..." : "Hapus"}
                   </button>

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { M_PLUS_Rounded_1c, Noto_Sans } from "next/font/google";
+import { Noto_Sans, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-const display = M_PLUS_Rounded_1c({
-  weight: ["500", "700", "800"],
+const display = Zen_Kaku_Gothic_New({
+  weight: ["500", "700", "900"],
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -39,11 +39,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="id"
-      className={`${display.variable} ${body.variable} h-full`}
-    >
+    <html lang="id" className={`${display.variable} ${body.variable} h-full`}>
       <body className="flex min-h-full flex-col">
+        <div className="page-bg" aria-hidden="true" />
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

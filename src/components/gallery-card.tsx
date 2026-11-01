@@ -10,7 +10,7 @@ export function GalleryCard({ item, priority = false }: GalleryCardProps) {
   const video = isVideoUrl(item.image_url);
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-line bg-surface">
+    <article className="overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-200 hover:border-accent/50">
       <div className="relative aspect-[3/4] bg-night-2">
         {video ? (
           <video
@@ -32,22 +32,22 @@ export function GalleryCard({ item, priority = false }: GalleryCardProps) {
           />
         )}
         {video ? (
-          <span className="pointer-events-none absolute left-2 top-2 rounded bg-night/80 px-2 py-0.5 text-[10px] font-semibold text-text">
+          <span className="pointer-events-none absolute left-2 top-2 rounded border border-accent/40 bg-night/80 px-1.5 py-0.5 text-[10px] font-semibold text-accent">
             MP4
           </span>
         ) : null}
       </div>
-      <div className="p-3">
+      <div className="p-3.5">
         <h3 className="font-heading text-sm font-bold leading-snug">
           {item.title}
         </h3>
         {item.tags.length > 0 ? (
-          <ul className="mt-2 flex flex-wrap gap-1.5">
+          <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
             {item.tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full border border-line px-2 py-0.5 text-[10px] text-muted"
-              >
+              <li key={tag} className="text-[10px] text-muted">
+                <span aria-hidden="true" className="text-accent">
+                  #
+                </span>
                 {tag}
               </li>
             ))}

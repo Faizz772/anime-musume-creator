@@ -1,23 +1,23 @@
 type MemberAvatarProps = {
   initials: string;
-  tone?: "pink" | "purple";
+  variant?: "solid" | "quiet";
   className?: string;
 };
 
 export function MemberAvatar({
   initials,
-  tone = "pink",
+  variant = "solid",
   className = "",
 }: MemberAvatarProps) {
-  const gradient =
-    tone === "pink"
-      ? "from-pink to-purple"
-      : "from-purple to-pink/70";
+  const tone =
+    variant === "solid"
+      ? "border border-accent bg-accent text-night"
+      : "border border-accent/30 bg-accent/10 text-accent";
 
   return (
     <span
       aria-hidden="true"
-      className={`grid shrink-0 place-items-center rounded-full bg-gradient-to-br font-heading font-extrabold text-night ${gradient} ${className}`}
+      className={`grid shrink-0 place-items-center rounded-lg font-heading font-bold ${tone} ${className}`}
     >
       {initials}
     </span>

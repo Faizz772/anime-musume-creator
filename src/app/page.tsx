@@ -1,11 +1,13 @@
-import Link from "next/link";
 import { Blossom } from "@/components/blossom";
 import { BlossomSpin } from "@/components/blossom-spin";
 import { Reveal } from "@/components/reveal";
 import { ActionLink } from "@/components/action";
 import { MemberAvatar } from "@/components/member-avatar";
+import { RoleBadge } from "@/components/role-badge";
 import { GallerySlot } from "@/components/gallery-slot";
 import { GalleryCard } from "@/components/gallery-card";
+import { SectionLabel } from "@/components/section-label";
+import { TextLink } from "@/components/text-link";
 import { admins, coreTeam, owner, WHATSAPP_URL } from "@/lib/clan";
 import { getGallery } from "@/lib/gallery";
 
@@ -18,164 +20,139 @@ export default async function HomePage() {
     <main>
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-pink/10 via-purple/5 to-transparent" />
-          <BlossomSpin className="absolute -right-20 -top-16 size-72 text-pink/[0.07] sm:size-96" />
+          <BlossomSpin className="absolute -right-24 -top-24 size-80 text-accent/[0.06] sm:size-[28rem]" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-6xl px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p className="font-heading text-sm font-bold text-pink">
-                Komunitas kreator anime musume
-              </p>
-              <h1 className="mt-4 font-heading text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-                Clan Anime <span className="text-gradient">Musume</span> Creator
-              </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-                Tempat berkumpulnya kreator yang menggambar, menulis, dan
-                membangun karakter anime musume. Dari sketsa pertama sampai
-                karya yang siap dibagikan.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ActionLink href="/seleksi">Daftar seleksi</ActionLink>
-                <ActionLink href="/tentang" variant="secondary">
-                  Kenalan dulu
-                </ActionLink>
-              </div>
+        <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
+          <SectionLabel>Komunitas kreator anime musume</SectionLabel>
+          <h1 className="mt-6 max-w-4xl font-heading text-[2.6rem] font-black leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            Clan Anime <span className="text-gradient">Musume</span> Creator
+          </h1>
+          <div className="mt-8 grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-end">
+            <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              Tempat berkumpulnya kreator yang menggambar, menulis, dan
+              membangun karakter anime musume. Dari sketsa pertama sampai karya
+              yang siap dibagikan.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
+              <ActionLink href="/seleksi">Daftar seleksi</ActionLink>
+              <ActionLink href="/tentang" variant="secondary">
+                Kenalan dulu
+              </ActionLink>
             </div>
+          </div>
 
-            <Reveal delay={0.15}>
-              <div className="rounded-3xl border border-line bg-surface/80 p-6 sm:p-7">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-heading text-sm font-bold">
-                    Seleksi anggota
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-pink/40 bg-pink/10 px-2.5 py-1 text-[11px] font-semibold text-blossom">
-                    <span
-                      aria-hidden="true"
-                      className="size-1.5 rounded-full bg-pink"
-                    />
-                    Dibuka
-                  </span>
-                </div>
-                <div className="my-5 h-px w-full hairline" />
-                <p className="text-sm leading-relaxed text-muted">
-                  Pintu masuk anggota baru lewat grup WhatsApp. Perkenalkan
-                  diri, tunjukkan karya, lalu ikuti arahan admin.
-                </p>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl border border-line-soft bg-night-2 p-3">
-                    <p className="font-heading text-2xl font-extrabold">1</p>
-                    <p className="mt-1 text-xs text-muted">Owner</p>
-                    <p className="font-heading text-sm font-bold">
-                      {owner.name}
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-line-soft bg-night-2 p-3">
-                    <p className="font-heading text-2xl font-extrabold">
-                      {admins.length}
-                    </p>
-                    <p className="mt-1 text-xs text-muted">Admin</p>
-                    <p className="font-heading text-sm font-bold">Tim inti</p>
-                  </div>
-                </div>
-                <Link
-                  href="/tim"
-                  className="mt-5 inline-flex text-sm font-semibold text-pink transition-colors hover:text-blossom"
-                >
-                  Lihat tim inti
-                </Link>
-              </div>
-            </Reveal>
+          <dl className="mt-12 grid grid-cols-3 divide-x divide-line-soft border-t border-line-soft pt-6">
+            <div className="pr-4">
+              <dt className="text-[11px] font-medium text-muted">Owner</dt>
+              <dd className="mt-1 font-heading text-base font-bold">
+                {owner.name}
+              </dd>
+            </div>
+            <div className="px-4">
+              <dt className="text-[11px] font-medium text-muted">Admin</dt>
+              <dd className="mt-1 font-heading text-base font-bold">
+                {admins.length} orang
+              </dd>
+            </div>
+            <div className="pl-4">
+              <dt className="text-[11px] font-medium text-muted">Seleksi</dt>
+              <dd className="mt-1 flex items-center gap-2 font-heading text-base font-bold">
+                <span
+                  aria-hidden="true"
+                  className="size-1.5 rounded-full bg-accent"
+                />
+                Dibuka
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
+          <SectionLabel>01 / Tentang</SectionLabel>
+          <div>
+            <h2 className="max-w-2xl font-heading text-2xl font-bold leading-[1.2] sm:text-3xl lg:text-4xl">
+              Kami menggambar karakter, bukan sekadar ikut tren.
+            </h2>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <p className="text-sm leading-relaxed text-muted sm:text-base">
+                Clan Anime Musume Creator adalah komunitas kecil yang serius
+                soal karya. Anggota saling memberi masukan, berbagi proses, dan
+                merayakan hasil masing-masing.
+              </p>
+              <p className="text-sm leading-relaxed text-muted sm:text-base">
+                Tidak perlu sudah jago untuk mulai. Yang penting mau belajar dan
+                menghargai karya orang lain.
+              </p>
+            </div>
+            <div className="mt-6">
+              <TextLink href="/tentang">Baca soal clan</TextLink>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
-          <Reveal>
-            <h2 className="font-heading text-2xl font-extrabold leading-snug sm:text-3xl">
-              Kami menggambar karakter, bukan sekadar ikut tren.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1} className="space-y-4">
-            <p className="text-base leading-relaxed text-muted">
-              Clan Anime Musume Creator adalah komunitas kecil yang serius soal
-              karya. Anggota saling memberi masukan, berbagi proses, dan
-              merayakan hasil masing-masing.
-            </p>
-            <p className="text-base leading-relaxed text-muted">
-              Tidak perlu sudah jago untuk mulai. Yang penting mau belajar dan
-              menghargai karya orang lain.
-            </p>
-            <Link
-              href="/tentang"
-              className="inline-flex text-sm font-semibold text-pink transition-colors hover:text-blossom"
-            >
-              Baca soal clan
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="border-y border-line-soft bg-night-2/60">
-        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <div className="flex items-end justify-between gap-4">
+      <section className="border-y border-line-soft bg-night-2/50">
+        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="font-heading text-sm font-bold text-pink">
-                Tim inti
-              </p>
-              <h2 className="mt-2 font-heading text-2xl font-extrabold sm:text-3xl">
+              <SectionLabel>02 / Tim inti</SectionLabel>
+              <h2 className="mt-3 font-heading text-2xl font-bold sm:text-3xl">
                 Yang menjaga ritme clan
               </h2>
             </div>
-            <Link
-              href="/tim"
-              className="shrink-0 text-sm font-semibold text-pink transition-colors hover:text-blossom"
-            >
-              Semua tim
-            </Link>
+            <TextLink href="/tim">Semua tim</TextLink>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <ul className="mt-10 border-t border-line-soft">
             {coreTeam.map((member, index) => (
-              <Reveal key={member.name} delay={index * 0.06}>
-                <div className="h-full rounded-2xl border border-line bg-surface p-4">
-                  <MemberAvatar
-                    initials={member.initials}
-                    tone={member.role === "Owner" ? "pink" : "purple"}
-                    className="size-11 text-sm"
-                  />
-                  <p className="mt-3 font-heading text-sm font-bold">
+              <li
+                key={member.name}
+                className="flex items-center gap-4 border-b border-line-soft py-4"
+              >
+                <span className="w-6 shrink-0 font-heading text-xs text-muted">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <MemberAvatar
+                  initials={member.initials}
+                  variant={member.role === "Owner" ? "solid" : "quiet"}
+                  className="size-9 text-xs"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="font-heading text-sm font-bold">
                     {member.name}
                   </p>
-                  <p className="text-xs text-muted">{member.role}</p>
+                  <p className="text-xs text-muted">
+                    {member.role === "Owner"
+                      ? "Pemegang arah clan"
+                      : "Membantu jalannya clan"}
+                  </p>
                 </div>
-              </Reveal>
+                <RoleBadge role={member.role} />
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:items-center">
-          <Reveal>
-            <p className="font-heading text-sm font-bold text-pink">Galeri</p>
-            <h2 className="mt-2 font-heading text-2xl font-extrabold sm:text-3xl">
+      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
+          <div>
+            <SectionLabel>03 / Galeri</SectionLabel>
+            <h2 className="mt-3 font-heading text-2xl font-bold sm:text-3xl">
               Karya anggota, satu tempat.
             </h2>
-            <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted sm:text-base">
               {gallery.length > 0
                 ? "Karya terbaru dari anggota clan. Buka galeri untuk melihat semuanya."
                 : "Galeri masih disiapkan. Begitu karya pertama masuk, akan tampil di halaman ini."}
             </p>
-            <Link
-              href="/galeri"
-              className="mt-5 inline-flex text-sm font-semibold text-pink transition-colors hover:text-blossom"
-            >
-              Buka galeri
-            </Link>
-          </Reveal>
+            <div className="mt-6">
+              <TextLink href="/galeri">Buka galeri</TextLink>
+            </div>
+          </div>
           <Reveal delay={0.1}>
             <div className="grid grid-cols-3 gap-3">
               {gallery.length > 0
@@ -190,22 +167,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 pb-4 sm:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-surface to-night-2 p-8 sm:p-12">
-          <Blossom className="absolute -bottom-12 -right-10 size-56 text-purple/10" />
-          <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
-                Mau gabung ke clan?
-              </h2>
-              <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
-                Seleksi anggota dibuka lewat grup WhatsApp. Bawa karya terbaik
-                dan perkenalkan dirimu di sana.
-              </p>
+      <section className="border-y border-line-soft bg-night-2/50">
+        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+          <div className="relative overflow-hidden">
+            <Blossom className="absolute -right-12 -top-16 size-56 text-accent/10" />
+            <div className="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div>
+                <SectionLabel>04 / Seleksi</SectionLabel>
+                <h2 className="mt-3 font-heading text-2xl font-bold sm:text-3xl">
+                  Mau gabung ke clan?
+                </h2>
+                <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+                  Seleksi anggota dibuka lewat grup WhatsApp. Bawa karya terbaik
+                  dan perkenalkan dirimu di sana.
+                </p>
+              </div>
+              <ActionLink
+                href={WHATSAPP_URL}
+                external
+                className="shrink-0"
+              >
+                Daftar seleksi sekarang
+              </ActionLink>
             </div>
-            <ActionLink href={WHATSAPP_URL} external className="shrink-0">
-              Daftar seleksi sekarang
-            </ActionLink>
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Blossom } from "@/components/blossom";
 import { Reveal } from "@/components/reveal";
 import { ActionLink } from "@/components/action";
+import { SectionLabel } from "@/components/section-label";
 
 export const metadata: Metadata = {
   title: "Tentang",
@@ -26,10 +27,10 @@ export default function TentangPage() {
   return (
     <main>
       <section className="relative overflow-hidden border-b border-line-soft">
-        <Blossom className="absolute -right-16 -top-16 size-64 text-pink/10" />
+        <Blossom className="absolute -right-20 -top-20 size-72 text-accent/[0.07]" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <p className="font-heading text-sm font-bold text-pink">Tentang</p>
-          <h1 className="mt-3 max-w-3xl font-heading text-3xl font-extrabold leading-tight sm:text-5xl">
+          <SectionLabel>01 / Tentang</SectionLabel>
+          <h1 className="mt-6 max-w-3xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
             Ruang tumbuh untuk kreator anime musume.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
@@ -40,21 +41,19 @@ export default function TentangPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
-          <Reveal>
-            <h2 className="font-heading text-2xl font-extrabold">
-              Apa yang kami lakukan
-            </h2>
-          </Reveal>
+      <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
+          <h2 className="font-heading text-2xl font-bold">
+            Apa yang kami lakukan
+          </h2>
 
-          <div className="divide-y divide-line-soft">
+          <div className="divide-y divide-line-soft border-t border-line-soft">
             {activities.map((activity, index) => (
               <Reveal key={activity.title} delay={index * 0.08}>
-                <div className="flex gap-5 py-6 first:pt-0 last:pb-0">
+                <div className="flex gap-5 py-6">
                   <span
                     aria-hidden="true"
-                    className="font-heading text-sm font-extrabold text-purple"
+                    className="font-heading text-xs font-bold text-accent"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -73,11 +72,11 @@ export default function TentangPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-5 pb-8 sm:px-8">
-        <div className="rounded-3xl border border-line bg-surface p-8 sm:p-12">
-          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+      <section className="border-y border-line-soft bg-night-2/50">
+        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
             <div>
-              <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
+              <h2 className="font-heading text-2xl font-bold sm:text-3xl">
                 Belum perlu jago untuk mulai.
               </h2>
               <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
