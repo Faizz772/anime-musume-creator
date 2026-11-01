@@ -10,8 +10,8 @@ export function GalleryCard({ item, priority = false }: GalleryCardProps) {
   const video = isVideoUrl(item.image_url);
 
   return (
-    <article className="overflow-hidden rounded-lg border border-line bg-surface transition-colors duration-200 hover:border-accent/50">
-      <div className="relative aspect-[3/4] bg-night-2">
+    <article className="group overflow-hidden rounded-lg border border-line bg-surface transition-[transform,border-color] duration-300 ease-out hover:-translate-y-0.5 hover:border-accent/50">
+      <div className="relative aspect-[3/4] overflow-hidden bg-night-2">
         {video ? (
           <video
             src={item.image_url}
@@ -28,7 +28,7 @@ export function GalleryCard({ item, priority = false }: GalleryCardProps) {
             fill
             priority={priority}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
-            className="object-cover"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         )}
         {video ? (

@@ -64,9 +64,12 @@ export function SiteHeader() {
                 }`}
               >
                 {item.label}
-                {active ? (
-                  <span className="absolute inset-x-3 -bottom-0.5 h-px bg-accent" />
-                ) : null}
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-3 -bottom-0.5 h-px origin-left bg-accent transition-transform duration-300 ease-out ${
+                    active ? "scale-x-100" : "scale-x-0"
+                  }`}
+                />
               </Link>
             );
           })}
@@ -82,17 +85,17 @@ export function SiteHeader() {
         >
           <span className="relative block h-3.5 w-5">
             <span
-              className={`absolute left-0 top-0 h-0.5 w-5 rounded bg-current transition-transform ${
+              className={`absolute left-0 top-0 h-0.5 w-5 rounded bg-current transition-transform duration-300 ease-out ${
                 open ? "translate-y-[6px] rotate-45" : ""
               }`}
             />
             <span
-              className={`absolute left-0 top-[6px] h-0.5 w-5 rounded bg-current transition-opacity ${
+              className={`absolute left-0 top-[6px] h-0.5 w-5 rounded bg-current transition-opacity duration-300 ease-out ${
                 open ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`absolute left-0 top-[12px] h-0.5 w-5 rounded bg-current transition-transform ${
+              className={`absolute left-0 top-[12px] h-0.5 w-5 rounded bg-current transition-transform duration-300 ease-out ${
                 open ? "-translate-y-[6px] -rotate-45" : ""
               }`}
             />
@@ -102,29 +105,38 @@ export function SiteHeader() {
 
       <div
         id="mobile-nav"
-        hidden={!open}
-        className="border-t border-line-soft bg-night px-5 pb-4 pt-2 md:hidden"
+        inert={!open}
+        className={`grid overflow-hidden border-t bg-night transition-[grid-template-rows,border-color] duration-300 ease-out md:hidden ${
+          open
+            ? "grid-rows-[1fr] border-line-soft"
+            : "grid-rows-[0fr] border-transparent"
+        }`}
       >
-        <nav aria-label="Navigasi seluler" className="flex flex-col">
-          {navItems.map((item) => {
-            const active = isActive(pathname, item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                aria-current={active ? "page" : undefined}
-                className={`rounded px-3 py-3 text-sm ${
-                  active
-                    ? "bg-surface text-text"
-                    : "text-muted hover:bg-surface/60 hover:text-text"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="min-h-0 overflow-hidden">
+          <nav
+            aria-label="Navigasi seluler"
+            className="flex flex-col px-5 pb-4 pt-2"
+          >
+            {navItems.map((item) => {
+              const active = isActive(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded px-3 py-3 text-sm transition-colors duration-200 ${
+                    active
+                      ? "bg-surface text-text"
+                      : "text-muted hover:bg-surface/60 hover:text-text"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
       </div>
     </header>
   );
