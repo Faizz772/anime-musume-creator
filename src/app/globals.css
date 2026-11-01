@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night: #060a15;
+  --color-night-2: #0a1122;
+  --color-surface: #0d1630;
+  --color-surface-2: #12203f;
+  --color-line: #1d2a4a;
+  --color-line-soft: #16213c;
+  --color-text: #e8ecfb;
+  --color-muted: #9dabc9;
+  --color-pink: #ff7ac2;
+  --color-purple: #b07cff;
+  --color-blossom: #ffd6ea;
+
+  --font-heading: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-night);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-pink) 38%, transparent);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  a,
+  button,
+  [role="button"],
+  summary,
+  label[for],
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
+  :disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.reveal {
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.reveal[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
+.text-gradient {
+  background-image: linear-gradient(100deg, var(--color-blossom), var(--color-pink) 45%, var(--color-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hairline {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-pink) 55%, transparent),
+    color-mix(in srgb, var(--color-purple) 55%, transparent),
+    transparent
+  );
+}
