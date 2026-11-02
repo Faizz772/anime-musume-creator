@@ -206,6 +206,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
   background:
     radial-gradient(
       55% 45% at 50% 40%,
@@ -316,6 +317,16 @@
   }
 }
 
+.blossom-spin {
+  animation: blossom-rotate 90s linear infinite;
+}
+
+@keyframes blossom-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo-mark {
     animation: none;
@@ -323,6 +334,10 @@
 
   .logo-mark::after {
     transition: none;
+  }
+
+  .blossom-spin {
+    animation: none;
   }
 
   .splash-mark,
