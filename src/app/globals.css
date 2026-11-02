@@ -186,7 +186,7 @@
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -195,7 +195,7 @@
 }
 
 .page-enter {
-  animation: page-enter 0.35s var(--ease-out-expo) backwards;
+  animation: page-enter 0.65s var(--ease-out-expo) backwards;
 }
 
 .splash-screen {
@@ -215,7 +215,7 @@
     ),
     var(--color-night);
   transition: opacity 0.4s var(--ease-out-expo);
-  animation: splash-auto-hide 0.4s var(--ease-out-expo) 2.2s forwards;
+  animation: splash-auto-hide 0.5s var(--ease-out-expo) 3.2s forwards;
 }
 
 .splash-screen.is-hidden {
@@ -276,7 +276,7 @@
   height: 100%;
   transform-origin: left;
   background: var(--color-accent);
-  animation: splash-load 1.4s var(--ease-out-expo) both;
+  animation: splash-load 1.8s var(--ease-out-expo) both;
 }
 
 @keyframes splash-mark-in {

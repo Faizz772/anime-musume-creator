@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const MIN_SHOW = 1600;
-const FADE = 400;
+const MIN_SHOW = 2400;
+const FADE = 500;
 
 type Phase = "visible" | "hiding" | "gone";
 

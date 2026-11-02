@@ -8,7 +8,8 @@ type TimerKey = "done" | "safety" | "initial";
 type Timers = Partial<Record<TimerKey, number>>;
 
 const MIN_VISIBLE = 400;
-const DONE_HOLD = 350;
+const NAV_MIN = 650;
+const DONE_HOLD = 500;
 const SAFETY = 5000;
 
 function clearTimer(timers: Timers, key: TimerKey) {
@@ -24,6 +25,7 @@ export function RouteProgress() {
   const [phase, setPhase] = useState<Phase>("idle");
   const active = useRef(false);
   const firstPathname = useRef(true);
+  const navStartedAt = useRef(0);
   const timers = useRef<Timers>({});
 
   const start = useCallback(() => {
@@ -32,6 +34,7 @@ export function RouteProgress() {
     clearTimer(timerState, "safety");
     clearTimer(timerState, "initial");
     active.current = true;
+    navStartedAt.current = performance.now();
     setPhase("loading");
     timerState.safety = window.setTimeout(() => {
       active.current = false;
@@ -142,7 +145,10 @@ export function RouteProgress() {
       firstPathname.current = false;
       return;
     }
-    finish();
+    const elapsed = performance.now() - navStartedAt.current;
+    const wait = Math.max(0, NAV_MIN - elapsed);
+    const timer = window.setTimeout(finish, wait);
+    return () => window.clearTimeout(timer);
   }, [pathname, finish]);
 
   useEffect(() => {
@@ -161,7 +167,7 @@ export function RouteProgress() {
         className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5"
       >
         <div
-          className={`h-full origin-left bg-accent transition-[scale,opacity] duration-300 ease-out ${
+          className={`h-full origin-left bg-accent transition-[scale,opacity] duration-500 ease-out ${
             phase === "loading"
               ? "scale-x-[0.8] opacity-100"
               : phase === "done"
