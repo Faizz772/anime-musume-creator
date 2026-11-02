@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { GallerySlot } from "@/components/gallery-slot";
-import { GalleryCard } from "@/components/gallery-card";
+import { GalleryGrid } from "@/components/gallery-grid";
 import { ActionLink } from "@/components/action";
 import { getGallery } from "@/lib/gallery";
 
@@ -68,17 +68,7 @@ export default async function GaleriPage() {
             </p>
           </>
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {items.map((item, index) => (
-              <Reveal
-                key={item.id}
-                delay={(index % 3) * 0.05}
-                className={index % 3 === 1 ? "sm:translate-y-8" : ""}
-              >
-                <GalleryCard item={item} priority={index < 3} />
-              </Reveal>
-            ))}
-          </div>
+          <GalleryGrid items={items} priorityCount={3} />
         )}
       </section>
     </main>

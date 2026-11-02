@@ -6,7 +6,7 @@ import { TextLink } from "@/components/text-link";
 import { MemberAvatar } from "@/components/member-avatar";
 import { RoleBadge } from "@/components/role-badge";
 import { GallerySlot } from "@/components/gallery-slot";
-import { GalleryCard } from "@/components/gallery-card";
+import { GalleryGrid } from "@/components/gallery-grid";
 import { SectionLabel } from "@/components/section-label";
 import { admins, coreTeam, owner, WHATSAPP_URL } from "@/lib/clan";
 import { getGallery } from "@/lib/gallery";
@@ -170,20 +170,16 @@ export default async function HomePage() {
           <TextLink href="/galeri">Buka galeri</TextLink>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {gallery.length > 0
-            ? gallery.map((item, index) => (
-                <Reveal
-                  key={item.id}
-                  delay={(index % 3) * 0.05}
-                  className={index % 3 === 1 ? "sm:translate-y-8" : ""}
-                >
-                  <GalleryCard item={item} />
-                </Reveal>
-              ))
-            : Array.from({ length: 3 }).map((_, index) => (
+        <div className="mt-10">
+          {gallery.length > 0 ? (
+            <GalleryGrid items={gallery} />
+          ) : (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, index) => (
                 <GallerySlot key={index} className="aspect-[3/4]" />
               ))}
+            </div>
+          )}
         </div>
 
         <p className="mt-6 max-w-xl text-xs leading-relaxed text-muted">
