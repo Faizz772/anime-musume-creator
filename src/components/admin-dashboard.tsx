@@ -207,10 +207,10 @@ export function AdminDashboard({
         </p>
       ) : null}
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <form
           onSubmit={onSubmit}
-          className="h-fit rounded-lg border border-line bg-surface p-6"
+          className="h-fit min-w-0 rounded-lg border border-line bg-surface p-4 sm:p-6"
         >
           <h2 className="font-heading text-lg font-bold">Tambah karya</h2>
 
@@ -319,7 +319,7 @@ export function AdminDashboard({
           </div>
         </form>
 
-        <section className="rounded-lg border border-line bg-surface p-6">
+        <section className="min-w-0 rounded-lg border border-line bg-surface p-4 sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-heading text-lg font-bold">Karya tersimpan</h2>
             <span className="rounded border border-line px-2 py-0.5 text-xs text-muted">
@@ -339,8 +339,11 @@ export function AdminDashboard({
           ) : (
             <ul className="mt-5 divide-y divide-line-soft">
               {items.map((item) => (
-                <li key={item.id} className="flex items-center gap-4 py-4">
-                  <span className="relative block size-16 shrink-0 overflow-hidden rounded-lg bg-night-2">
+                <li
+                  key={item.id}
+                  className="flex min-w-0 items-center gap-3 py-4 sm:gap-4"
+                >
+                  <span className="relative block size-14 shrink-0 overflow-hidden rounded-lg bg-night-2 sm:size-16">
                     {isVideoUrl(item.image_url) ? (
                       <>
                         <video
@@ -379,7 +382,7 @@ export function AdminDashboard({
                     type="button"
                     onClick={() => onDelete(item)}
                     disabled={deleting === item.id}
-                    className="shrink-0 rounded border border-line px-3 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent/50 hover:text-ice disabled:opacity-60"
+                    className="shrink-0 rounded border border-line px-2.5 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent/50 hover:text-ice disabled:opacity-60 sm:px-3"
                   >
                     {deleting === item.id ? "Menghapus..." : "Hapus"}
                   </button>
