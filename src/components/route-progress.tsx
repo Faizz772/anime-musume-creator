@@ -23,6 +23,7 @@ function clearTimer(timers: Timers, key: TimerKey) {
 export function RouteProgress() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
+  const [run, setRun] = useState(0);
   const active = useRef(false);
   const firstPathname = useRef(true);
   const navStartedAt = useRef(0);
@@ -35,6 +36,7 @@ export function RouteProgress() {
     clearTimer(timerState, "initial");
     active.current = true;
     navStartedAt.current = performance.now();
+    setRun((value) => value + 1);
     setPhase("loading");
     timerState.safety = window.setTimeout(() => {
       active.current = false;
@@ -164,17 +166,10 @@ export function RouteProgress() {
     <>
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5"
+        className="route-bar"
+        data-active={phase !== "idle"}
       >
-        <div
-          className={`h-full origin-left bg-accent transition-[scale,opacity] duration-500 ease-out ${
-            phase === "loading"
-              ? "scale-x-[0.8] opacity-100"
-              : phase === "done"
-                ? "scale-x-100 opacity-100"
-                : "scale-x-0 opacity-0"
-          }`}
-        />
+        <div key={run} className="route-bar-fill" />
       </div>
       <span className="sr-only" role="status" aria-live="polite">
         {phase === "loading" ? "Memuat halaman" : ""}

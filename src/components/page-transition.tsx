@@ -3,8 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-const EXIT_MS = 200;
-
 export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
@@ -64,23 +62,16 @@ export function PageTransition() {
       busy.current = true;
 
       const page = document.querySelector(".page-enter");
-      const reduce = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-      const wait = reduce || !page ? 0 : EXIT_MS;
-
       if (page) {
         leaving.current = page;
         page.classList.add("is-leaving");
       }
 
+      router.push(`${url.pathname}${url.search}${url.hash}`);
       window.setTimeout(() => {
-        router.push(`${url.pathname}${url.search}${url.hash}`);
-        window.setTimeout(() => {
-          leaving.current?.classList.remove("is-leaving");
-          busy.current = false;
-        }, 600);
-      }, wait);
+        leaving.current?.classList.remove("is-leaving");
+        busy.current = false;
+      }, 600);
     };
 
     document.addEventListener("click", onClick, true);
