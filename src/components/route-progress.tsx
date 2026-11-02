@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 type Phase = "idle" | "loading" | "done";
-type TimerKey = "start" | "done" | "safety";
+type TimerKey = "done" | "safety";
 type Timers = Partial<Record<TimerKey, number>>;
 
 function clearTimer(timers: Timers, key: TimerKey) {
@@ -61,15 +61,10 @@ export function RouteProgress() {
         return;
       }
 
-      clearTimer(timers.current, "start");
       clearTimer(timers.current, "done");
-      active.current = false;
-      setPhase("idle");
-
-      timers.current.start = window.setTimeout(() => {
-        active.current = true;
-        setPhase("loading");
-      }, 120);
+      clearTimer(timers.current, "safety");
+      active.current = true;
+      setPhase("loading");
     };
 
     document.addEventListener("click", onClick, true);
@@ -77,7 +72,6 @@ export function RouteProgress() {
   }, []);
 
   useEffect(() => {
-    clearTimer(timers.current, "start");
     if (!active.current) return;
 
     clearTimer(timers.current, "safety");
@@ -103,7 +97,6 @@ export function RouteProgress() {
   useEffect(() => {
     const timerState = timers.current;
     return () => {
-      clearTimer(timerState, "start");
       clearTimer(timerState, "done");
       clearTimer(timerState, "safety");
     };
@@ -120,7 +113,7 @@ export function RouteProgress() {
             phase === "loading"
               ? "scale-x-[0.8] opacity-100"
               : phase === "done"
-                ? "scale-x-100 opacity-0"
+                ? "scale-x-100 opacity-100"
                 : "scale-x-0 opacity-0"
           }`}
         />
