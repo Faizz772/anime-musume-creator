@@ -37,8 +37,8 @@ export function AdminLoginForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md">
-      <div className="rounded-lg border border-line bg-surface p-6 sm:p-8">
+    <div className="mx-auto flex min-h-[70vh] max-w-md items-center">
+      <div className="w-full rounded-lg border border-line bg-surface p-6 sm:p-8">
         <span className="grid size-11 place-items-center rounded-lg border border-accent/30 bg-accent/10 text-accent">
           <Blossom className="size-6" />
         </span>

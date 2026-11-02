@@ -3,6 +3,7 @@ import { Archivo, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteChrome } from "@/components/site-chrome";
 import { RouteProgress } from "@/components/route-progress";
 import { SplashScreen } from "@/components/splash-screen";
 import { PageTransition } from "@/components/page-transition";
@@ -46,9 +47,9 @@ export default function RootLayout({
         <SplashScreen />
         <RouteProgress />
         <PageTransition />
-        <SiteHeader />
-        <div className="flex-1">{children}</div>
-        <SiteFooter />
+        <SiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );
