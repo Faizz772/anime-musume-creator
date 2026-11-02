@@ -214,12 +214,15 @@
       transparent 72%
     ),
     var(--color-night);
-  transition: opacity 0.4s var(--ease-out-expo);
-  animation: splash-auto-hide 0.5s var(--ease-out-expo) 3.2s forwards;
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    filter 0.6s var(--ease-out-expo);
+  animation: splash-auto-hide 0.6s var(--ease-out-expo) 2.8s forwards;
 }
 
 .splash-screen.is-hidden {
   opacity: 0;
+  filter: blur(8px);
   pointer-events: none;
 }
 
@@ -232,7 +235,7 @@
   border-radius: 14px;
   border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
   background: var(--color-surface);
-  animation: splash-mark-in 0.5s var(--ease-out-expo) both;
+  animation: splash-mark-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .splash-mark img {
@@ -248,7 +251,7 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-ice);
-  animation: splash-rise 0.6s var(--ease-out-expo) 0.06s both;
+  animation: splash-rise 0.6s var(--ease-out-expo) 0.35s both;
 }
 
 .splash-sub {
@@ -258,7 +261,7 @@
   font-weight: 500;
   letter-spacing: 0.2em;
   color: var(--color-muted);
-  animation: splash-rise 0.6s var(--ease-out-expo) 0.1s both;
+  animation: splash-fade 0.6s var(--ease-out-expo) 0.55s both;
 }
 
 .splash-track {
@@ -276,13 +279,13 @@
   height: 100%;
   transform-origin: left;
   background: var(--color-accent);
-  animation: splash-load 1.8s var(--ease-out-expo) both;
+  animation: splash-load 1.7s var(--ease-standard) both;
 }
 
 @keyframes splash-mark-in {
   from {
     opacity: 0;
-    transform: scale(0.92);
+    transform: scale(0.8);
   }
   to {
     opacity: 1;
@@ -293,11 +296,20 @@
 @keyframes splash-rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes splash-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -313,6 +325,7 @@
 @keyframes splash-auto-hide {
   to {
     opacity: 0;
+    filter: blur(8px);
     visibility: hidden;
   }
 }

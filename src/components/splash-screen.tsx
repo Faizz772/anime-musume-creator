@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const MIN_SHOW = 2400;
-const FADE = 500;
+const MIN_SHOW = 1900;
+const FADE = 600;
 
 type Phase = "visible" | "hiding" | "gone";
 
@@ -16,8 +16,7 @@ export function SplashScreen() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
     const minShow = reduced ? 300 : MIN_SHOW;
-    const wait = Math.max(0, minShow - performance.now());
-    const timer = window.setTimeout(() => setPhase("hiding"), wait);
+    const timer = window.setTimeout(() => setPhase("hiding"), minShow);
     return () => window.clearTimeout(timer);
   }, []);
 
