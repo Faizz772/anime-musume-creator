@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { isVideoUrl, type GalleryItem } from "@/lib/gallery-types";
+import { AdminEditDialog } from "./admin-edit-dialog";
 
 type Status = { kind: "ok" | "error"; text: string } | null;
 
@@ -29,6 +30,7 @@ export function AdminDashboard({
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [editing, setEditing] = useState<GalleryItem | null>(null);
   const [status, setStatus] = useState<Status>(null);
 
   const fileIsVideo = file?.type.startsWith("video/") ?? false;
@@ -507,6 +509,7 @@ export function AdminDashboard({
                       <>
                         <video
                           src={item.image_url}
+                          poster={item.poster_url ?? undefined}
                           muted
                           playsInline
                           preload="metadata"
@@ -542,20 +545,48 @@ export function AdminDashboard({
                       </p>
                     ) : null}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => onDelete(item)}
-                    disabled={deleting === item.id}
-                    className="shrink-0 rounded border border-line px-2.5 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent/50 hover:text-ice disabled:opacity-60 sm:px-3"
-                  >
-                    {deleting === item.id ? "Menghapus..." : "Hapus"}
-                  </button>
+                  <div className="flex shrink-0 flex-col gap-1 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={() => setEditing(item)}
+                      className="rounded border border-line px-2.5 py-2 text-xs font-semibold text-text transition-colors hover:border-accent/50 hover:bg-surface-2 sm:px-3"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(item)}
+                      disabled={deleting === item.id}
+                      className="rounded border border-line px-2.5 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent/50 hover:text-ice disabled:opacity-60 sm:px-3"
+                    >
+                      {deleting === item.id ? "Menghapus..." : "Hapus"}
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
           )}
         </section>
       </div>
+
+      {editing ? (
+        <AdminEditDialog
+          key={editing.id}
+          item={editing}
+          onClose={() => setEditing(null)}
+          onSaved={(updated, warning) => {
+            setItems((current) =>
+              current.map((entry) =>
+                entry.id === updated.id ? updated : entry,
+              ),
+            );
+            setStatus({
+              kind: "ok",
+              text: warning ?? "Karya diperbarui.",
+            });
+          }}
+        />
+      ) : null}
     </div>
   );
 }
