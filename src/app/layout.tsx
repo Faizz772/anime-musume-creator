@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Noto_Sans, Zen_Kaku_Gothic_New } from "next/font/google";
+import { Archivo, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteProgress } from "@/components/route-progress";
 import { SplashScreen } from "@/components/splash-screen";
 
-const display = Zen_Kaku_Gothic_New({
-  weight: ["500", "700", "900"],
+const display = Archivo({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
 const body = Noto_Sans({
-  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
