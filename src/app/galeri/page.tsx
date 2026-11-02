@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { GallerySlot } from "@/components/gallery-slot";
-import { GalleryGrid } from "@/components/gallery-grid";
+import { GalleryBrowser } from "@/components/gallery-browser";
 import { ActionLink } from "@/components/action";
 import { getGallery } from "@/lib/gallery";
 
@@ -68,7 +68,7 @@ export default async function GaleriPage() {
             </p>
           </>
         ) : (
-          <GalleryGrid items={items} priorityCount={3} />
+          <GalleryBrowser items={items} />
         )}
       </section>
     </main>

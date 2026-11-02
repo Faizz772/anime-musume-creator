@@ -23,6 +23,7 @@ export function GalleryCard({
           <>
             <video
               src={item.image_url}
+              poster={item.poster_url ?? undefined}
               muted
               playsInline
               preload="metadata"
@@ -63,6 +64,9 @@ export function GalleryCard({
         <h3 className="font-heading text-sm font-bold leading-snug">
           {item.title}
         </h3>
+        {item.author ? (
+          <p className="mt-0.5 text-[11px] text-accent">{item.author}</p>
+        ) : null}
         {item.tags.length > 0 ? (
           <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
             {item.tags.map((tag) => (

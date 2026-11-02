@@ -21,6 +21,10 @@ const body = Noto_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      "https://anime-musume-creator-alpha.vercel.app",
+  ),
   title: {
     default: "Clan Anime Musume Creator",
     template: "%s | Clan Anime Musume Creator",
@@ -32,6 +36,14 @@ export const metadata: Metadata = {
     description:
       "Wadah kreatif pecinta anime: tim inti, galeri karya, dan seleksi anggota baru.",
     type: "website",
+    images: [
+      {
+        url: "/logo-amc.webp",
+        width: 256,
+        height: 256,
+        alt: "Clan Anime Musume Creator",
+      },
+    ],
   },
 };
 

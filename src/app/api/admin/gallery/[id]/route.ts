@@ -32,7 +32,7 @@ export async function DELETE(
 
   const { data: item, error: fetchError } = await supabase
     .from("gallery")
-    .select("id,image_url")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
 
@@ -59,9 +59,15 @@ export async function DELETE(
     );
   }
 
-  const path = storagePathFromUrl(item.image_url);
-  if (path) {
-    await supabase.storage.from("gallery").remove([path]);
+  const paths = [
+    storagePathFromUrl(item.image_url),
+    typeof item.poster_url === "string"
+      ? storagePathFromUrl(item.poster_url)
+      : null,
+  ].filter((value): value is string => Boolean(value));
+
+  if (paths.length > 0) {
+    await supabase.storage.from("gallery").remove(paths);
   }
 
   revalidatePath("/galeri");

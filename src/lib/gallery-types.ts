@@ -4,6 +4,8 @@ export type GalleryItem = {
   image_url: string;
   tags: string[];
   posted_at: string;
+  author?: string | null;
+  poster_url?: string | null;
 };
 
 export function isVideoUrl(url: string) {

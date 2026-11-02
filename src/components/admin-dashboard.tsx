@@ -17,12 +17,16 @@ export function AdminDashboard({
 }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const posterInputRef = useRef<HTMLInputElement>(null);
 
   const [items, setItems] = useState<GalleryItem[]>(initialItems);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
+  const [author, setAuthor] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [posterFile, setPosterFile] = useState<File | null>(null);
+  const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>(null);
@@ -34,15 +38,33 @@ export function AdminDashboard({
     if (preview) URL.revokeObjectURL(preview);
     setFile(next);
     setPreview(next ? URL.createObjectURL(next) : null);
+    if (!next || !next.type.startsWith("video/")) {
+      if (posterPreview) URL.revokeObjectURL(posterPreview);
+      setPosterFile(null);
+      setPosterPreview(null);
+      if (posterInputRef.current) posterInputRef.current.value = "";
+    }
+  }
+
+  function onPosterChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const next = event.target.files?.[0] ?? null;
+    if (posterPreview) URL.revokeObjectURL(posterPreview);
+    setPosterFile(next);
+    setPosterPreview(next ? URL.createObjectURL(next) : null);
   }
 
   function resetForm() {
     setTitle("");
     setTags("");
+    setAuthor("");
     setFile(null);
     if (preview) URL.revokeObjectURL(preview);
     setPreview(null);
+    setPosterFile(null);
+    if (posterPreview) URL.revokeObjectURL(posterPreview);
+    setPosterPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
+    if (posterInputRef.current) posterInputRef.current.value = "";
   }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -69,6 +91,17 @@ export function AdminDashboard({
             : "Ukuran gambar maksimal 8 MB.",
       });
       return;
+    }
+
+    if (fileIsVideo && posterFile) {
+      if (!posterFile.type.startsWith("image/")) {
+        setStatus({ kind: "error", text: "Poster harus berupa gambar." });
+        return;
+      }
+      if (posterFile.size > IMAGE_MAX) {
+        setStatus({ kind: "error", text: "Ukuran poster maksimal 8 MB." });
+        return;
+      }
     }
 
     setBusy(true);
@@ -112,19 +145,70 @@ export function AdminDashboard({
       return;
     }
 
+    let posterPath: string | undefined;
+    if (fileIsVideo && posterFile) {
+      const posterUrlResponse = await fetch("/api/admin/upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentType: posterFile.type }),
+      });
+
+      const posterUrlData = (await posterUrlResponse.json().catch(() => ({}))) as {
+        signedUrl?: string;
+        path?: string;
+        error?: string;
+      };
+
+      if (
+        !posterUrlResponse.ok ||
+        !posterUrlData.signedUrl ||
+        !posterUrlData.path
+      ) {
+        setBusy(false);
+        setStatus({
+          kind: "error",
+          text: posterUrlData.error ?? "Gagal menyiapkan upload poster.",
+        });
+        return;
+      }
+
+      const posterUpload = await fetch(posterUrlData.signedUrl, {
+        method: "PUT",
+        headers: {
+          "content-type": posterFile.type,
+          "x-upsert": "false",
+        },
+        body: posterFile,
+      });
+
+      if (!posterUpload.ok) {
+        setBusy(false);
+        setStatus({
+          kind: "error",
+          text: "Gagal mengunggah poster ke penyimpanan.",
+        });
+        return;
+      }
+
+      posterPath = posterUrlData.path;
+    }
+
     const response = await fetch("/api/admin/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: title.trim(),
         tags,
+        author,
         path: urlData.path,
+        posterPath,
       }),
     });
 
     const data = (await response.json().catch(() => ({}))) as {
       item?: GalleryItem;
       error?: string;
+      warning?: string;
     };
 
     setBusy(false);
@@ -136,7 +220,10 @@ export function AdminDashboard({
 
     setItems((current) => [data.item as GalleryItem, ...current]);
     resetForm();
-    setStatus({ kind: "ok", text: "Karya ditambahkan ke galeri." });
+    setStatus({
+      kind: "ok",
+      text: data.warning ?? "Karya ditambahkan ke galeri.",
+    });
     router.refresh();
   }
 
@@ -256,6 +343,27 @@ export function AdminDashboard({
             </div>
 
             <div>
+              <label
+                htmlFor="author"
+                className="mb-1.5 block text-sm font-semibold"
+              >
+                Kreator
+              </label>
+              <input
+                id="author"
+                name="author"
+                type="text"
+                value={author}
+                onChange={(event) => setAuthor(event.target.value)}
+                placeholder="@username atau nama"
+                className="w-full rounded-lg border border-line bg-night-2 px-4 py-3 text-sm text-text placeholder:text-muted focus:border-accent/60 focus:outline-none"
+              />
+              <p className="mt-1.5 text-xs text-muted">
+                Opsional. Tampil sebagai kredit di karya.
+              </p>
+            </div>
+
+            <div>
               <span className="mb-1.5 block text-sm font-semibold">
                 Gambar atau video
               </span>
@@ -308,6 +416,57 @@ export function AdminDashboard({
                 <p className="mt-2 truncate text-xs text-muted">{file.name}</p>
               ) : null}
             </div>
+
+            {fileIsVideo ? (
+              <div>
+                <span className="mb-1.5 block text-sm font-semibold">
+                  Poster video (opsional)
+                </span>
+                <input
+                  ref={posterInputRef}
+                  id="poster"
+                  name="poster"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                  onChange={onPosterChange}
+                  className="peer sr-only"
+                />
+                <label
+                  htmlFor="poster"
+                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-line bg-night-2 p-2.5 transition-colors hover:border-accent/50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent"
+                >
+                  {posterPreview ? (
+                    <span className="relative block size-12 shrink-0 overflow-hidden rounded-md bg-night-2">
+                      <Image
+                        src={posterPreview}
+                        alt="Pratinjau poster"
+                        fill
+                        unoptimized
+                        sizes="48px"
+                        className="object-cover"
+                      />
+                    </span>
+                  ) : (
+                    <span className="grid size-12 shrink-0 place-items-center rounded-md border border-line bg-surface text-[10px] font-semibold text-muted">
+                      IMG
+                    </span>
+                  )}
+                  <span className="min-w-0">
+                    <span className="block text-xs font-semibold text-text">
+                      {posterPreview ? "Ganti poster" : "Pilih gambar poster"}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted">
+                      Biar preview video tidak hitam. Maks 8 MB.
+                    </span>
+                  </span>
+                </label>
+                {posterFile ? (
+                  <p className="mt-1.5 truncate text-xs text-muted">
+                    {posterFile.name}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
 
             <button
               type="submit"
@@ -372,6 +531,11 @@ export function AdminDashboard({
                     <p className="truncate font-heading text-sm font-bold">
                       {item.title}
                     </p>
+                    {item.author ? (
+                      <p className="mt-0.5 truncate text-[11px] text-accent">
+                        {item.author}
+                      </p>
+                    ) : null}
                     {item.tags.length > 0 ? (
                       <p className="mt-1 truncate text-xs text-muted">
                         {item.tags.join(", ")}

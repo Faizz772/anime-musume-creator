@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { isVideoUrl, type GalleryItem } from "@/lib/gallery-types";
@@ -72,6 +73,7 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
           {video ? (
             <video
               src={item.image_url}
+              poster={item.poster_url ?? undefined}
               controls
               autoPlay
               playsInline
@@ -93,6 +95,9 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
               <h2 className="font-heading text-base font-bold sm:text-lg">
                 {item.title}
               </h2>
+              {item.author ? (
+                <p className="mt-1 text-xs text-accent">{item.author}</p>
+              ) : null}
               {item.tags.length > 0 ? (
                 <ul className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
                   {item.tags.map((tag) => (
@@ -106,9 +111,17 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
                 </ul>
               ) : null}
             </div>
-            <span className="text-xs text-muted">
-              {video ? "Video" : "Gambar"}
-            </span>
+            <div className="flex flex-col items-end gap-2">
+              <span className="text-xs text-muted">
+                {video ? "Video" : "Gambar"}
+              </span>
+              <Link
+                href={`/galeri/${item.id}`}
+                className="text-xs font-semibold text-accent transition-colors hover:text-ice"
+              >
+                Buka halaman karya
+              </Link>
+            </div>
           </div>
         </div>
       </div>

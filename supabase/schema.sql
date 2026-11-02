@@ -5,6 +5,8 @@ create table if not exists public.gallery (
   title text not null,
   image_url text not null,
   tags text[] not null default '{}',
+  author text,
+  poster_url text,
   posted_at timestamptz not null default now()
 );
 
