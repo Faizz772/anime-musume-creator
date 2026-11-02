@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 type Phase = "idle" | "loading" | "done";
-type TimerKey = "done" | "safety";
+type TimerKey = "done" | "safety" | "initial";
 type Timers = Partial<Record<TimerKey, number>>;
+
+const MIN_VISIBLE = 400;
+const DONE_HOLD = 350;
+const SAFETY = 5000;
 
 function clearTimer(timers: Timers, key: TimerKey) {
   const id = timers[key];
@@ -19,7 +23,34 @@ export function RouteProgress() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
   const active = useRef(false);
+  const firstPathname = useRef(true);
   const timers = useRef<Timers>({});
+
+  const start = useCallback(() => {
+    const timerState = timers.current;
+    clearTimer(timerState, "done");
+    clearTimer(timerState, "safety");
+    clearTimer(timerState, "initial");
+    active.current = true;
+    setPhase("loading");
+    timerState.safety = window.setTimeout(() => {
+      active.current = false;
+      setPhase("idle");
+    }, SAFETY);
+  }, []);
+
+  const finish = useCallback(() => {
+    if (!active.current) return;
+    const timerState = timers.current;
+    clearTimer(timerState, "safety");
+    clearTimer(timerState, "initial");
+    setPhase("done");
+    clearTimer(timerState, "done");
+    timerState.done = window.setTimeout(() => {
+      active.current = false;
+      setPhase("idle");
+    }, DONE_HOLD);
+  }, []);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
@@ -61,44 +92,65 @@ export function RouteProgress() {
         return;
       }
 
-      clearTimer(timers.current, "done");
-      clearTimer(timers.current, "safety");
-      active.current = true;
-      setPhase("loading");
+      start();
     };
 
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, []);
+  }, [start]);
 
   useEffect(() => {
-    if (!active.current) return;
-
-    clearTimer(timers.current, "safety");
-    setPhase("done");
-    clearTimer(timers.current, "done");
-    timers.current.done = window.setTimeout(() => {
-      active.current = false;
-      setPhase("idle");
-    }, 400);
-  }, [pathname]);
+    const onPopState = () => {
+      if (window.location.pathname !== pathname) start();
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [pathname, start]);
 
   useEffect(() => {
-    if (phase !== "loading") return;
     const timerState = timers.current;
-    clearTimer(timerState, "safety");
-    timerState.safety = window.setTimeout(() => {
-      active.current = false;
-      setPhase("idle");
-    }, 5000);
-    return () => clearTimer(timerState, "safety");
-  }, [phase]);
+    let startedAt = 0;
+    let loadListener: (() => void) | undefined;
+
+    const complete = () => {
+      const wait = Math.max(0, MIN_VISIBLE - (performance.now() - startedAt));
+      clearTimer(timerState, "initial");
+      timerState.initial = window.setTimeout(finish, wait);
+    };
+
+    const startTimer = window.setTimeout(() => {
+      start();
+      startedAt = performance.now();
+
+      if (document.readyState === "complete") {
+        complete();
+      } else {
+        loadListener = complete;
+        window.addEventListener("load", complete, { once: true });
+      }
+    }, 0);
+
+    return () => {
+      window.clearTimeout(startTimer);
+      if (loadListener) window.removeEventListener("load", loadListener);
+      clearTimer(timerState, "initial");
+    };
+  }, [start, finish]);
+
+  useEffect(() => {
+    if (firstPathname.current) {
+      firstPathname.current = false;
+      return;
+    }
+    finish();
+  }, [pathname, finish]);
 
   useEffect(() => {
     const timerState = timers.current;
     return () => {
       clearTimer(timerState, "done");
       clearTimer(timerState, "safety");
+      clearTimer(timerState, "initial");
     };
   }, []);
 
