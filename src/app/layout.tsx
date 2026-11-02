@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteProgress } from "@/components/route-progress";
+import { SplashScreen } from "@/components/splash-screen";
 
 const display = Zen_Kaku_Gothic_New({
   weight: ["500", "700", "900"],
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="id" className={`${display.variable} ${body.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <div className="page-bg" aria-hidden="true" />
+        <SplashScreen />
         <RouteProgress />
         <SiteHeader />
         <div className="flex-1">{children}</div>
