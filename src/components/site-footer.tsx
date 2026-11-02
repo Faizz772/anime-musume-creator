@@ -59,12 +59,6 @@ export function SiteFooter() {
             >
               Gabung grup WhatsApp
             </a>
-            <Link
-              href="/admin"
-              className="flex min-h-11 w-fit items-center text-muted transition-colors hover:text-text"
-            >
-              Panel admin
-            </Link>
           </div>
         </div>
 

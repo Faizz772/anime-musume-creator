@@ -42,8 +42,8 @@ export default async function GaleriPage() {
                     Galeri masih kosong
                   </h2>
                   <p className="mt-1 text-sm leading-relaxed text-muted">
-                    Karya pertama akan tampil di sini setelah ditambahkan lewat
-                    panel admin.
+                    Karya pertama akan tampil di sini setelah melalui kurasi
+                    tim.
                   </p>
                 </div>
                 <ActionLink href="/seleksi" className="shrink-0">
