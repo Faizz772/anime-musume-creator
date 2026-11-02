@@ -183,10 +183,10 @@
   transform: translateX(130%);
 }
 
-@keyframes hero-in {
+@keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -194,8 +194,8 @@
   }
 }
 
-.hero-in {
-  animation: hero-in 0.8s var(--ease-out-expo) both;
+.page-enter {
+  animation: page-enter 0.35s var(--ease-out-expo) backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

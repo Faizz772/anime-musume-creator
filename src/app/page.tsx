@@ -23,7 +23,7 @@ export default async function HomePage() {
           <BlossomSpin className="absolute -right-24 -top-24 size-80 text-accent/[0.06] sm:size-[28rem]" />
         </div>
 
-        <div className="hero-in relative mx-auto w-full max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
+        <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pb-20 sm:pt-24">
           <SectionLabel>Komunitas kreator anime musume</SectionLabel>
           <h1 className="mt-6 max-w-4xl font-heading text-[2.6rem] font-black leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
             Clan Anime <span className="text-gradient">Musume</span> Creator

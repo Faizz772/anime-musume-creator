@@ -20,7 +20,7 @@ export default async function GaleriPage() {
     <main>
       <section className="relative overflow-hidden border-b border-line-soft">
         <Blossom className="absolute -right-20 -top-20 size-72 text-accent/[0.07]" />
-        <div className="hero-in relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <SectionLabel>03 / Galeri</SectionLabel>
           <h1 className="mt-6 max-w-2xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
             Karya anggota, satu tempat.
