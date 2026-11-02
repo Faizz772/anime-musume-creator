@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteProgress } from "@/components/route-progress";
 import { SplashScreen } from "@/components/splash-screen";
+import { PageTransition } from "@/components/page-transition";
 
 const display = Archivo({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
         <div className="page-bg" aria-hidden="true" />
         <SplashScreen />
         <RouteProgress />
+        <PageTransition />
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

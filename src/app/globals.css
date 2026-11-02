@@ -183,6 +183,22 @@
   transform: translateX(130%);
 }
 
+.page-enter {
+  will-change: opacity, transform;
+}
+
+.page-enter.is-leaving {
+  pointer-events: none;
+  animation: page-leave 200ms var(--ease-standard) forwards;
+}
+
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+
 @keyframes page-rise-in {
   from {
     opacity: 0;
