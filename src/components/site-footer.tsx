@@ -23,7 +23,7 @@ export function SiteFooter() {
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              Komunitas kreator anime musume. Menggambar, menulis, dan tumbuh
+              Komunitas kreatif pecinta anime. Berproses, berkarya, dan tumbuh
               bareng.
             </p>
           </div>

@@ -30,9 +30,9 @@ export default async function HomePage() {
           </h1>
           <div className="mt-8 grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-end">
             <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              Tempat berkumpulnya kreator yang menggambar, menulis, dan
-              membangun karakter anime musume. Dari sketsa pertama sampai karya
-              yang siap dibagikan.
+              Tempat berkumpulnya pecinta anime dan kreator: editor, desainer,
+              content creator, dan lainnya. Semua berproses bareng sampai
+              karyanya siap dibagikan.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
               <ActionLink href="/seleksi">Daftar seleksi</ActionLink>
@@ -74,13 +74,13 @@ export default async function HomePage() {
           <SectionLabel>01 / Tentang</SectionLabel>
           <div>
             <h2 className="max-w-2xl font-heading text-2xl font-bold leading-[1.2] sm:text-3xl lg:text-4xl">
-              Kami menggambar karakter, bukan sekadar ikut tren.
+              Wadah kreatif untuk tumbuh bersama.
             </h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <p className="text-sm leading-relaxed text-muted sm:text-base">
-                Clan Anime Musume Creator adalah komunitas kecil yang serius
-                soal karya. Anggota saling memberi masukan, berbagi proses, dan
-                merayakan hasil masing-masing.
+                Anime Musume Creator menjadi rumah bagi pecinta anime, editor,
+                desainer, dan content creator yang mau berkembang bareng. Semua
+                saling memberi masukan dan merayakan hasil.
               </p>
               <p className="text-sm leading-relaxed text-muted sm:text-base">
                 Tidak perlu sudah jago untuk mulai. Yang penting mau belajar dan

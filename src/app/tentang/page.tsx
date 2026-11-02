@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 
 const activities = [
   {
-    title: "Menggambar karakter",
-    body: "Latihan bareng, dari proporsi dan pose sampai ekspresi yang terasa hidup.",
+    title: "Tumbuh sebagai kreator",
+    body: "Editor, desainer, content creator, penulis, dan illustrator berproses bareng di satu tempat, masing-masing mengasah kemampuannya.",
   },
   {
-    title: "Menulis cerita",
-    body: "Membangun latar, kepribadian, dan alasan kenapa karakter itu ada.",
+    title: "Saling memberi masukan",
+    body: "Kritik yang jujur tapi sopan, biar tiap orang makin tajam dan karyanya makin hidup.",
   },
   {
-    title: "Memberi masukan",
-    body: "Kritik yang jujur tapi sopan, supaya karya berikutnya lebih baik.",
+    title: "Menjaga lingkungan yang sehat",
+    body: "Aktif, profesional, dan saling mendukung. Di sini orang berkembang karena dihargai, bukan karena berlomba.",
   },
 ];
 
@@ -34,9 +34,10 @@ export default function TentangPage() {
             Ruang tumbuh untuk kreator anime musume.
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Clan Anime Musume Creator dibangun oleh orang-orang yang suka
-            menggambar karakter dan ingin punya tempat pulang untuk berbagi
-            prosesnya.
+            Anime Musume Creator adalah wadah bagi pecinta anime dan kreator
+            untuk tumbuh bareng: editor, desainer, content creator, dan siapa
+            pun yang ingin berkarya. Lingkungannya aktif, profesional, dan
+            saling mendukung.
           </p>
         </div>
       </section>

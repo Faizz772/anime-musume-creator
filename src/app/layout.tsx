@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     template: "%s | Clan Anime Musume Creator",
   },
   description:
-    "Komunitas kreator yang menggambar, menulis, dan membangun karakter anime musume. Lihat tim inti, galeri karya, dan jalur seleksi anggota.",
+    "Komunitas kreatif pecinta anime: editor, desainer, content creator, dan kreator lain yang berkembang bareng dalam lingkungan aktif, profesional, dan saling mendukung.",
   openGraph: {
     title: "Clan Anime Musume Creator",
     description:
-      "Komunitas kreator anime musume: tim inti, galeri karya, dan seleksi anggota baru.",
+      "Wadah kreatif pecinta anime: tim inti, galeri karya, dan seleksi anggota baru.",
     type: "website",
   },
 };
