@@ -15,16 +15,16 @@ export function MemberAvatar({
 }: MemberAvatarProps) {
   const tone =
     variant === "solid"
-      ? "border border-accent bg-accent text-night"
-      : "border border-accent/30 bg-accent/10 text-accent";
+      ? "bg-accent text-night ring-accent/40"
+      : "bg-surface-2 text-accent ring-white/10";
 
   return (
     <span
       aria-hidden="true"
-      className={`relative grid shrink-0 place-items-center overflow-hidden rounded-lg font-heading font-bold ${tone} ${className}`}
+      className={`relative grid shrink-0 place-items-center overflow-hidden rounded-full font-heading font-bold ring-1 ${tone} ${className}`}
     >
       {src ? (
-        <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+        <Image src={src} alt="" fill sizes="96px" className="object-cover" />
       ) : (
         initials
       )}

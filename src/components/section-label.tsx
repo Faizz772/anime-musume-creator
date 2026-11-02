@@ -2,8 +2,11 @@ import type { ReactNode } from "react";
 
 export function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="flex items-center gap-3 font-heading text-xs font-medium text-accent">
-      <span aria-hidden="true" className="h-px w-8 bg-accent/60" />
+    <p className="flex items-center gap-2.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+      <span
+        aria-hidden="true"
+        className="size-1.5 shrink-0 rounded-[1px] bg-accent"
+      />
       {children}
     </p>
   );

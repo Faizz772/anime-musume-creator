@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Blossom } from "@/components/blossom";
+import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ActionLink } from "@/components/action";
 import { SectionLabel } from "@/components/section-label";
+import { Blossom } from "@/components/blossom";
 import { WHATSAPP_URL } from "@/lib/clan";
 
 export const metadata: Metadata = {
@@ -18,28 +19,32 @@ const notes = [
 export default function KontakPage() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-line-soft">
-        <Blossom className="absolute -right-20 -top-20 size-72 text-accent/[0.07]" />
-        <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <SectionLabel>05 / Kontak</SectionLabel>
-          <h1 className="mt-6 max-w-2xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
-            Ngobrol soal clan, karya, atau seleksi.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Jalur paling cepat adalah grup WhatsApp. Admin dan anggota aktif di
-            sana.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        index="05"
+        label="Kontak"
+        title="Ngobrol soal clan, karya, atau seleksi."
+        intro="Jalur paling cepat adalah grup WhatsApp. Admin dan anggota aktif di sana."
+        aside={
+          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+            <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Respons
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Admin membalas sesuai jadwal. Untuk hal mendesak, tulis dengan
+              jelas di grup.
+            </p>
+          </aside>
+        }
+      />
 
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-        <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
-          <Reveal>
-            <div className="relative overflow-hidden rounded-lg border border-accent/25 bg-surface p-6 sm:p-8">
+        <div className="grid gap-4 md:grid-cols-12">
+          <Reveal className="md:col-span-7">
+            <div className="relative overflow-hidden rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8">
               <Blossom className="absolute -right-8 -top-8 size-40 text-accent/10" />
               <div className="relative">
                 <SectionLabel>WhatsApp</SectionLabel>
-                <h2 className="mt-3 font-heading text-2xl font-bold">
+                <h2 className="mt-3 max-w-md font-heading text-2xl font-black tracking-tight sm:text-3xl">
                   Grup Clan Anime Musume Creator
                 </h2>
                 <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
@@ -53,8 +58,8 @@ export default function KontakPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <div className="h-full rounded-lg border border-line bg-surface p-6 sm:p-8">
+          <Reveal delay={0.08} className="md:col-span-5">
+            <div className="h-full rounded-2xl border border-line bg-surface/60 p-6 sm:p-8">
               <h2 className="font-heading text-base font-bold">
                 Sebelum menghubungi
               </h2>
@@ -66,7 +71,7 @@ export default function KontakPage() {
                   >
                     <span
                       aria-hidden="true"
-                      className="mt-2 size-1.5 shrink-0 rounded-sm bg-accent"
+                      className="mt-2 size-1.5 shrink-0 rounded-[1px] bg-accent"
                     />
                     {note}
                   </li>

@@ -2,10 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,translate] duration-200 ease-out active:translate-y-px";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,translate,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:translate-y-px";
 
 const styles = {
-  primary: "bg-accent text-night hover:bg-ice",
+  primary:
+    "bg-accent text-night hover:bg-ice hover:shadow-[0_10px_30px_-16px_rgba(91,140,255,0.9)]",
   secondary:
     "border border-line bg-transparent text-text hover:border-accent/60 hover:bg-surface",
 } as const;

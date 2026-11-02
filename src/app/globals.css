@@ -21,6 +21,7 @@
   color-scheme: dark;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -103,8 +104,8 @@
 
 .reveal {
   transition:
-    opacity 0.7s var(--ease-out-expo),
-    transform 0.7s var(--ease-out-expo);
+    opacity 0.42s var(--ease-soft),
+    transform 0.42s var(--ease-soft);
 }
 
 .reveal[data-reveal="hidden"] {

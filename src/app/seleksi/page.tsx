@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Blossom } from "@/components/blossom";
+import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ActionLink } from "@/components/action";
 import { SectionLabel } from "@/components/section-label";
@@ -27,41 +27,57 @@ const steps = [
 export default function SeleksiPage() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-line-soft">
-        <Blossom className="absolute -left-20 -top-20 size-72 text-accent/[0.07]" />
-        <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <SectionLabel>04 / Seleksi</SectionLabel>
-          <h1 className="mt-6 max-w-2xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
-            Pintu masuk anggota baru.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Seleksi dibuka lewat grup WhatsApp. Baca langkahnya, lalu masuk saat
-            kamu sudah siap.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        index="04"
+        label="Seleksi"
+        title="Pintu masuk anggota baru."
+        intro="Seleksi dibuka lewat grup WhatsApp. Baca langkahnya, lalu masuk saat kamu sudah siap."
+        aside={
+          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+            <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Jalur
+            </p>
+            <dl className="mt-3 divide-y divide-line-soft">
+              <div className="flex items-center justify-between gap-4 py-3">
+                <dt className="text-xs text-muted">Media</dt>
+                <dd className="font-heading text-sm font-bold">WhatsApp</dd>
+              </div>
+              <div className="flex items-center justify-between gap-4 py-3">
+                <dt className="text-xs text-muted">Status</dt>
+                <dd className="flex items-center gap-2 font-heading text-sm font-bold">
+                  <span
+                    aria-hidden="true"
+                    className="size-1.5 rounded-full bg-accent"
+                  />
+                  Terbuka
+                </dd>
+              </div>
+            </dl>
+          </aside>
+        }
+      />
 
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div>
-            <h2 className="font-heading text-xl font-bold sm:text-2xl">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h2 className="font-heading text-3xl font-black tracking-tight sm:text-4xl">
               Cara ikut seleksi
             </h2>
-            <ol className="mt-6 divide-y divide-line-soft border-t border-line-soft">
+            <ol className="mt-8 border-t border-line-soft">
               {steps.map((step, index) => (
-                <Reveal key={step.title} delay={index * 0.08}>
-                  <li className="flex gap-5 py-6">
+                <Reveal key={step.title} delay={index * 0.06}>
+                  <li className="grid gap-3 border-b border-line-soft py-7 sm:grid-cols-[3.5rem_1fr] sm:gap-6">
                     <span
                       aria-hidden="true"
-                      className="grid size-8 shrink-0 place-items-center rounded border border-accent/30 bg-accent/10 font-heading text-xs font-bold text-accent"
+                      className="font-heading text-3xl font-black text-accent/30"
                     >
-                      {index + 1}
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <h3 className="font-heading text-base font-bold">
+                      <h3 className="font-heading text-lg font-bold sm:text-xl">
                         {step.title}
                       </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
                         {step.body}
                       </p>
                     </div>
@@ -75,32 +91,29 @@ export default function SeleksiPage() {
             </p>
           </div>
 
-          <Reveal delay={0.1}>
-            <div className="lg:sticky lg:top-24">
-              <div className="relative overflow-hidden rounded-lg border border-accent/25 bg-surface p-6 sm:p-8">
-                <Blossom className="absolute -right-8 -top-8 size-40 text-accent/10" />
-                <div className="relative">
-                  <SectionLabel>Seleksi anggota</SectionLabel>
-                  <h2 className="mt-3 font-heading text-2xl font-bold">
-                    Siap gabung?
-                  </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    Klik tombol di bawah untuk masuk ke grup WhatsApp seleksi.
-                  </p>
-                  <ActionLink
-                    href={WHATSAPP_URL}
-                    external
-                    className="mt-6 w-full"
-                  >
-                    Daftar seleksi sekarang
-                  </ActionLink>
-                  <p className="mt-4 text-xs leading-relaxed text-muted">
-                    Tautan membuka grup WhatsApp di tab baru.
-                  </p>
-                </div>
+          <div className="lg:col-span-5">
+            <Reveal delay={0.1}>
+              <div className="rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8 lg:sticky lg:top-24">
+                <SectionLabel>Seleksi anggota</SectionLabel>
+                <h2 className="mt-3 font-heading text-2xl font-black tracking-tight sm:text-3xl">
+                  Siap gabung?
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  Klik tombol di bawah untuk masuk ke grup WhatsApp seleksi.
+                </p>
+                <ActionLink
+                  href={WHATSAPP_URL}
+                  external
+                  className="mt-6 w-full"
+                >
+                  Daftar seleksi sekarang
+                </ActionLink>
+                <p className="mt-4 text-xs leading-relaxed text-muted">
+                  Tautan membuka grup WhatsApp di tab baru.
+                </p>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
     </main>

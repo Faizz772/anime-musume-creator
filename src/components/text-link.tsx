@@ -9,13 +9,13 @@ type TextLinkProps = {
 
 export function TextLink({ href, children, external = false }: TextLinkProps) {
   const className =
-    "group inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent transition-colors duration-300 ease-out hover:text-ice";
+    "group inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent transition-colors duration-200 ease-out hover:text-ice";
   const content = (
     <>
       {children}
       <span
         aria-hidden="true"
-        className="transition-transform duration-300 ease-out group-hover:translate-x-1.5"
+        className="transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1"
       >
         →
       </span>

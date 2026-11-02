@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Blossom } from "@/components/blossom";
+import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { MemberAvatar } from "@/components/member-avatar";
 import { RoleBadge } from "@/components/role-badge";
 import { ActionLink } from "@/components/action";
-import { SectionLabel } from "@/components/section-label";
 import { admins, owner } from "@/lib/clan";
 
 export const metadata: Metadata = {
@@ -14,89 +13,83 @@ export const metadata: Metadata = {
 export default function TimPage() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-line-soft">
-        <Blossom className="absolute -left-20 -top-20 size-72 text-accent/[0.07]" />
-        <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <SectionLabel>02 / Tim inti</SectionLabel>
-          <h1 className="mt-6 max-w-2xl font-heading text-3xl font-black leading-[1.08] tracking-tight sm:text-5xl">
-            Empat orang di balik clan.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            Mereka yang menjaga arah, menjawab pertanyaan, dan menyambut anggota
-            baru.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        index="02"
+        label="Tim inti"
+        title="Empat orang di balik clan."
+        intro="Mereka yang menjaga arah, menjawab pertanyaan, dan menyambut anggota baru."
+        aside={
+          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+            <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Struktur
+            </p>
+            <dl className="mt-3 divide-y divide-line-soft">
+              <div className="py-3">
+                <dt className="text-xs text-muted">Owner</dt>
+                <dd className="mt-1 font-heading text-sm font-bold">
+                  {owner.name}
+                </dd>
+              </div>
+              <div className="py-3">
+                <dt className="text-xs text-muted">Admin</dt>
+                <dd className="mt-1 font-heading text-sm font-bold">
+                  {admins.map((member) => member.name).join(", ")}
+                </dd>
+              </div>
+            </dl>
+          </aside>
+        }
+      />
 
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <Reveal>
-            <div className="relative h-full overflow-hidden rounded-lg border border-accent/25 bg-surface p-6 sm:p-8">
-              <Blossom className="absolute -right-10 -top-10 size-44 text-accent/10" />
-              <div className="relative">
-                <div className="flex items-center justify-between gap-3">
-                  <RoleBadge role="Owner" />
-                  <span className="font-heading text-xs text-muted">01</span>
-                </div>
-                <div className="mt-8 flex items-center gap-4">
-                  <MemberAvatar
-                    src={owner.avatar}
-                    initials={owner.initials}
-                    className="size-16 text-xl"
-                  />
-                  <div>
-                    <p className="text-xs text-accent">{owner.username}</p>
-                    <h2 className="font-heading text-2xl font-bold sm:text-3xl">
-                      {owner.name}
-                    </h2>
-                  </div>
-                </div>
-                <p className="mt-5 max-w-md text-sm leading-relaxed text-muted">
+        <Reveal>
+          <article className="rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+              <div className="flex flex-col items-start gap-4 lg:col-span-4">
+                <MemberAvatar
+                  src={owner.avatar}
+                  initials={owner.initials}
+                  className="size-24 text-2xl"
+                />
+                <RoleBadge role="Owner" />
+              </div>
+              <div className="lg:col-span-8">
+                <p className="text-xs text-accent">{owner.username}</p>
+                <h2 className="mt-1 font-heading text-3xl font-black tracking-tight sm:text-4xl">
+                  {owner.name}
+                </h2>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
                   {owner.task}
                 </p>
               </div>
             </div>
-          </Reveal>
+          </article>
+        </Reveal>
 
-          <Reveal delay={0.1}>
-            <div className="h-full rounded-lg border border-line bg-surface">
-              <ul className="divide-y divide-line-soft">
-                {admins.map((member, index) => (
-                  <li
-                    key={member.name}
-                    className="flex items-start gap-4 px-5 py-5"
-                  >
-                    <span className="mt-1 w-5 shrink-0 font-heading text-xs text-muted">
-                      {String(index + 2).padStart(2, "0")}
-                    </span>
-                    <MemberAvatar
-                      src={member.avatar}
-                      initials={member.initials}
-                      variant="quiet"
-                      className="size-11 text-sm"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <p className="font-heading text-sm font-bold">
-                          {member.name}
-                        </p>
-                        <span className="text-xs text-accent">
-                          {member.username}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-xs leading-relaxed text-muted">
-                        {member.task}
-                      </p>
-                    </div>
-                    <RoleBadge role="Admin" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {admins.map((member, index) => (
+            <Reveal key={member.name} delay={index * 0.06}>
+              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/60 p-5 transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/50">
+                <div className="flex items-start justify-between gap-3">
+                  <MemberAvatar
+                    src={member.avatar}
+                    initials={member.initials}
+                    variant="quiet"
+                    className="size-14 text-base"
+                  />
+                  <RoleBadge role="Admin" />
+                </div>
+                <p className="mt-4 text-xs text-accent">{member.username}</p>
+                <h3 className="font-heading text-lg font-bold">{member.name}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted">
+                  {member.task}
+                </p>
+              </article>
+            </Reveal>
+          ))}
         </div>
 
-        <Reveal delay={0.15}>
+        <Reveal delay={0.1}>
           <div className="mt-10 flex flex-col gap-4 border-t border-line-soft pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm leading-relaxed text-muted">
               Ada pertanyaan untuk tim inti? Mulai dari grup seleksi.
