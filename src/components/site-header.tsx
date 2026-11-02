@@ -44,12 +44,12 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-3">
           <span className="logo-mark relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl border border-accent/30">
             <Image
-              src="/logo.webp"
+              src="/logo-amc.webp"
               alt=""
               width={40}
               height={40}
               priority
-              className="size-full scale-125 object-cover"
+              className="size-full object-cover"
             />
           </span>
           <span className="leading-none">

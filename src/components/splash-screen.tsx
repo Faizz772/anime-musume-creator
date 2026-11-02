@@ -35,12 +35,12 @@ export function SplashScreen() {
     >
       <div className="splash-mark">
         <Image
-          src="/logo.webp"
+          src="/logo-amc.webp"
           alt=""
           width={56}
           height={56}
           priority
-          className="size-full scale-125 object-cover"
+          className="size-full object-cover"
         />
       </div>
       <p className="splash-name">Clan Anime Musume</p>
