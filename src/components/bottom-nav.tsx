@@ -10,6 +10,12 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function tapFeedback() {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    navigator.vibrate(8);
+  }
+}
+
 function NavIcon({ href }: { href: string }) {
   const common = {
     width: 18,
@@ -159,18 +165,28 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              onClick={() => moveTo(item.href, measured.current)}
+              onClick={() => {
+                tapFeedback();
+                moveTo(item.href, measured.current);
+              }}
               ref={(node) => {
                 if (node) itemRefs.current.set(item.href, node);
                 else itemRefs.current.delete(item.href);
               }}
-              className={`relative z-10 flex min-w-0 flex-1 shrink-0 flex-col items-center justify-center gap-1 whitespace-nowrap rounded-full px-1 py-2 text-[9px] font-semibold leading-none transition-colors duration-200 md:flex-row md:gap-2 md:px-3.5 md:py-2.5 md:text-xs ${
+              className={`relative z-10 flex min-w-0 flex-1 shrink-0 flex-col items-center justify-center gap-1 whitespace-nowrap rounded-full px-1 py-2 text-[9px] font-semibold leading-none transition-[color,transform] duration-200 active:scale-[0.96] md:flex-row md:gap-2 md:px-3.5 md:py-2.5 md:text-xs ${
                 active
                   ? "text-night"
                   : "text-muted hover:text-text"
               }`}
             >
-              <NavIcon href={item.href} />
+              <span
+                aria-hidden="true"
+                className={`transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  active ? "scale-110" : "scale-100"
+                }`}
+              >
+                <NavIcon href={item.href} />
+              </span>
               <span>{item.label}</span>
             </Link>
           );

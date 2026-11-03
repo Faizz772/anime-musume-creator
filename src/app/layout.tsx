@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteChrome } from "@/components/site-chrome";
 import { RouteProgress } from "@/components/route-progress";
 import { SplashScreen } from "@/components/splash-screen";
+import { PageExit } from "@/components/page-exit";
 
 const display = Archivo({
   subsets: ["latin"],
@@ -54,9 +55,15 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${display.variable} ${body.variable} h-full`}>
       <body className="flex min-h-full flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("amc-splash-seen")==="1"){document.documentElement.dataset.splashSeen="1"}}catch(e){}`,
+          }}
+        />
         <div className="page-bg" aria-hidden="true" />
         <SplashScreen />
         <RouteProgress />
+        <PageExit />
         <SiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
           {children}
         </SiteChrome>

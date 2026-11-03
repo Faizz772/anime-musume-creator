@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { flushSync } from "react-dom";
 import { Reveal } from "./reveal";
 import { GalleryCard } from "./gallery-card";
 import { GalleryLightbox } from "./gallery-lightbox";
@@ -11,9 +12,30 @@ type GalleryGridProps = {
   priorityCount?: number;
 };
 
+type ActiveItem = {
+  item: GalleryItem;
+  preview?: string;
+};
+
+function withViewTransition(update: () => void) {
+  if (
+    typeof document === "undefined" ||
+    typeof document.startViewTransition !== "function"
+  ) {
+    update();
+    return;
+  }
+  document.startViewTransition(() => flushSync(update));
+}
+
 export function GalleryGrid({ items, priorityCount = 0 }: GalleryGridProps) {
-  const [active, setActive] = useState<GalleryItem | null>(null);
-  const close = useCallback(() => setActive(null), []);
+  const [active, setActive] = useState<ActiveItem | null>(null);
+  const open = useCallback((item: GalleryItem, preview?: string) => {
+    withViewTransition(() => setActive({ item, preview }));
+  }, []);
+  const close = useCallback(() => {
+    withViewTransition(() => setActive(null));
+  }, []);
 
   const layout =
     items.length === 1
@@ -30,12 +52,19 @@ export function GalleryGrid({ items, priorityCount = 0 }: GalleryGridProps) {
             <GalleryCard
               item={item}
               priority={index < priorityCount}
-              onOpen={() => setActive(item)}
+              shareName={
+                active?.item.id === item.id ? undefined : `gallery-${item.id}`
+              }
+              onOpen={(preview) => open(item, preview)}
             />
           </Reveal>
         ))}
       </div>
-      <GalleryLightbox item={active} onClose={close} />
+      <GalleryLightbox
+        item={active?.item ?? null}
+        preview={active?.preview}
+        onClose={close}
+      />
     </>
   );
 }

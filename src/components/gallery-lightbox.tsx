@@ -8,10 +8,15 @@ import { isVideoUrl, type GalleryItem } from "@/lib/gallery-types";
 
 type GalleryLightboxProps = {
   item: GalleryItem | null;
+  preview?: string;
   onClose: () => void;
 };
 
-export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
+export function GalleryLightbox({
+  item,
+  preview,
+  onClose,
+}: GalleryLightboxProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -70,25 +75,41 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
         </button>
 
         <div className="overflow-hidden rounded-2xl border border-line bg-night-2">
-          {video ? (
-            <video
-              src={item.image_url}
-              poster={item.poster_url ?? undefined}
-              controls
-              autoPlay
-              playsInline
-              className="max-h-[75vh] w-full bg-black"
-            />
-          ) : (
-            <Image
-              src={item.image_url}
-              alt={item.title}
-              width={1200}
-              height={1600}
-              sizes="100vw"
-              className="max-h-[75vh] w-full object-contain"
-            />
-          )}
+          <div
+            className="relative bg-night-2"
+            style={
+              video
+                ? undefined
+                : { viewTransitionName: `gallery-${item.id}` }
+            }
+          >
+            {!video && preview ? (
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url("${preview}")` }}
+              />
+            ) : null}
+            {video ? (
+              <video
+                src={item.image_url}
+                poster={item.poster_url ?? undefined}
+                controls
+                autoPlay
+                playsInline
+                className="max-h-[75vh] w-full bg-black"
+              />
+            ) : (
+              <Image
+                src={item.image_url}
+                alt={item.title}
+                width={1200}
+                height={1600}
+                sizes="100vw"
+                className="relative z-10 max-h-[75vh] w-full object-contain"
+              />
+            )}
+          </div>
 
           <div className="flex flex-wrap items-start justify-between gap-3 p-4 sm:p-5">
             <div>
@@ -117,7 +138,6 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
               </span>
               <Link
                 href={`/galeri/${item.id}`}
-                onClick={onClose}
                 className="text-xs font-semibold text-accent transition-colors hover:text-ice"
               >
                 Buka halaman karya

@@ -1,24 +1,39 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import { isVideoUrl, type GalleryItem } from "@/lib/gallery-types";
 
 type GalleryCardProps = {
   item: GalleryItem;
   priority?: boolean;
-  onOpen: () => void;
+  shareName?: string;
+  onOpen: (preview?: string) => void;
 };
 
 export function GalleryCard({
   item,
   priority = false,
+  shareName,
   onOpen,
 }: GalleryCardProps) {
   const video = isVideoUrl(item.image_url);
+  const mediaRef = useRef<HTMLDivElement>(null);
+
+  const openLightbox = () => {
+    const image = mediaRef.current?.querySelector("img");
+    onOpen(image?.currentSrc || undefined);
+  };
 
   return (
     <article className="group relative overflow-hidden rounded-xl border border-line bg-surface transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/50">
-      <div className="relative aspect-[3/4] overflow-hidden bg-night-2">
+      <div
+        ref={mediaRef}
+        className="relative aspect-[3/4] overflow-hidden bg-night-2"
+        style={
+          shareName && !video ? { viewTransitionName: shareName } : undefined
+        }
+      >
         {video ? (
           <>
             <video
@@ -83,7 +98,7 @@ export function GalleryCard({
 
       <button
         type="button"
-        onClick={onOpen}
+        onClick={openLightbox}
         aria-label={`Buka ${item.title}${video ? ", putar video" : ""}`}
         className="absolute inset-0 z-10 rounded-xl"
       />

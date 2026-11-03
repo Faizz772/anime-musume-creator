@@ -244,6 +244,18 @@
   will-change: opacity, transform;
 }
 
+@keyframes page-exit {
+  to {
+    opacity: 0;
+    transform: translate3d(calc(var(--page-exit-dir, 1) * -12px), 0, 0);
+  }
+}
+
+.page-exit > main {
+  animation: page-exit 200ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
 
 
 .splash-screen {
@@ -266,6 +278,10 @@
     opacity 0.6s var(--ease-out-expo),
     filter 0.6s var(--ease-out-expo);
   animation: splash-auto-hide 0.6s var(--ease-out-expo) 2.8s forwards;
+}
+
+[data-splash-seen="1"] .splash-screen {
+  display: none;
 }
 
 .splash-screen.is-hidden {
@@ -405,6 +421,10 @@
     animation-duration: 600ms !important;
   }
 
+  .page-exit > main {
+    animation-duration: 200ms !important;
+  }
+
   .route-bar-fill {
     animation-duration: 1100ms !important;
   }
@@ -423,4 +443,17 @@
   .splash-track span {
     transform: scaleX(1);
   }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 460ms;
+  animation-timing-function: cubic-bezier(0.33, 0, 0.2, 1);
 }

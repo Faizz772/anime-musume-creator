@@ -12,6 +12,16 @@ export function SplashScreen() {
   const [phase, setPhase] = useState<Phase>("visible");
 
   useEffect(() => {
+    try {
+      if (document.documentElement.dataset.splashSeen !== "1") {
+        sessionStorage.setItem("amc-splash-seen", "1");
+      }
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
+
+  useEffect(() => {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
