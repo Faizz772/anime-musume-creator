@@ -1,10 +1,10 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { navItems } from "@/lib/clan";
 
-const EXIT_MS = 200;
+const EXIT_MS = 220;
 const SAFETY_MS = 4000;
 
 function navIndex(pathname: string) {
@@ -16,15 +16,32 @@ function navIndex(pathname: string) {
   return index === -1 ? 0 : index;
 }
 
+function freezePage(current: HTMLElement, dir: number) {
+  const clone = current.cloneNode(true) as HTMLElement;
+  clone.setAttribute("aria-hidden", "true");
+  clone.classList.remove("page-enter");
+  clone.classList.add("page-freeze");
+  clone.style.setProperty("--page-dir", String(dir));
+  clone.style.position = "fixed";
+  clone.style.top = `${-window.scrollY}px`;
+  clone.style.left = "0";
+  clone.style.right = "0";
+  clone.style.zIndex = "45";
+  clone.style.pointerEvents = "none";
+  document.body.appendChild(clone);
+  return clone;
+}
+
 export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
   const busy = useRef(false);
+  const firstPathname = useRef(true);
+  const overlay = useRef<HTMLElement | null>(null);
   const exitTimer = useRef<number | null>(null);
   const safetyTimer = useRef<number | null>(null);
 
-  useEffect(() => {
-    busy.current = false;
+  const removeOverlay = () => {
     if (exitTimer.current !== null) {
       window.clearTimeout(exitTimer.current);
       exitTimer.current = null;
@@ -33,14 +50,37 @@ export function PageTransition() {
       window.clearTimeout(safetyTimer.current);
       safetyTimer.current = null;
     }
+    if (overlay.current) {
+      overlay.current.remove();
+      overlay.current = null;
+    }
+    busy.current = false;
+  };
+
+  useLayoutEffect(() => {
+    if (firstPathname.current) {
+      firstPathname.current = false;
+      return;
+    }
+    const clone = overlay.current;
+    if (!clone) return;
+
+    if (safetyTimer.current !== null) {
+      window.clearTimeout(safetyTimer.current);
+      safetyTimer.current = null;
+    }
+
+    clone.classList.add("is-leaving");
+    exitTimer.current = window.setTimeout(() => {
+      exitTimer.current = null;
+      clone.remove();
+      if (overlay.current === clone) overlay.current = null;
+      busy.current = false;
+    }, EXIT_MS);
   }, [pathname]);
 
   useEffect(() => {
-    return () => {
-      if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
-      if (safetyTimer.current !== null)
-        window.clearTimeout(safetyTimer.current);
-    };
+    return removeOverlay;
   }, []);
 
   useEffect(() => {
@@ -88,26 +128,22 @@ export function PageTransition() {
       if (busy.current) return;
 
       const next = `${url.pathname}${url.search}${url.hash}`;
-      const current = document.querySelector<HTMLElement>(".page-enter");
+      const current = document.querySelector<HTMLElement>(".flex-1 .page-enter");
+
       if (!current) {
         router.push(next);
         return;
       }
 
       busy.current = true;
-      const dir = navIndex(url.pathname) >= navIndex(window.location.pathname) ? 1 : -1;
-      current.style.setProperty("--page-dir", String(dir));
-      current.classList.add("is-leaving");
+      const dir =
+        navIndex(url.pathname) >= navIndex(window.location.pathname) ? 1 : -1;
+      overlay.current = freezePage(current, dir);
 
-      exitTimer.current = window.setTimeout(() => {
-        exitTimer.current = null;
-        router.push(next);
-      }, EXIT_MS);
+      router.push(next);
 
       safetyTimer.current = window.setTimeout(() => {
-        current.classList.remove("is-leaving");
-        busy.current = false;
-        safetyTimer.current = null;
+        removeOverlay();
       }, SAFETY_MS);
     };
 
