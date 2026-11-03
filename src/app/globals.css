@@ -88,12 +88,6 @@
   background-size: 160px 160px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -244,16 +238,24 @@
   will-change: opacity, transform;
 }
 
-@keyframes page-exit {
+@keyframes page-snapshot-out {
   to {
     opacity: 0;
-    transform: translate3d(calc(var(--page-exit-dir, 1) * -12px), 0, 0);
+    transform: translate3d(calc(var(--page-nav-dir, 1) * -12px), 0, 0);
   }
 }
 
-.page-exit > main {
-  animation: page-exit 200ms cubic-bezier(0.4, 0, 1, 1) both;
+.page-snapshot {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
   pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.page-snapshot.is-leaving {
+  animation: page-snapshot-out 240ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 
@@ -419,10 +421,6 @@
 
   .page-enter > main {
     animation-duration: 600ms !important;
-  }
-
-  .page-exit > main {
-    animation-duration: 200ms !important;
   }
 
   .route-bar-fill {

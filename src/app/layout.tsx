@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteChrome } from "@/components/site-chrome";
 import { RouteProgress } from "@/components/route-progress";
 import { SplashScreen } from "@/components/splash-screen";
-import { PageExit } from "@/components/page-exit";
+import { PageTransition } from "@/components/page-transition";
 
 const display = Archivo({
   subsets: ["latin"],
@@ -63,7 +63,7 @@ export default function RootLayout({
         <div className="page-bg" aria-hidden="true" />
         <SplashScreen />
         <RouteProgress />
-        <PageExit />
+        <PageTransition />
         <SiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
           {children}
         </SiteChrome>

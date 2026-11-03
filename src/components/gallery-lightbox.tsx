@@ -138,6 +138,7 @@ export function GalleryLightbox({
               </span>
               <Link
                 href={`/galeri/${item.id}`}
+                prefetch
                 className="text-xs font-semibold text-accent transition-colors hover:text-ice"
               >
                 Buka halaman karya

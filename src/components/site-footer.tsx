@@ -29,6 +29,7 @@ export function SiteFooter() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch
                   className="flex min-h-11 w-fit items-center text-sm text-muted transition-colors duration-200 hover:text-text"
                 >
                   {item.label}
