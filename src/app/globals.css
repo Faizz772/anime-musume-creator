@@ -428,6 +428,10 @@
     animation-duration: 1100ms !important;
   }
 
+  .bottom-nav-pill {
+    transition-duration: 250ms !important;
+  }
+
   .splash-mark,
   .splash-name,
   .splash-sub,

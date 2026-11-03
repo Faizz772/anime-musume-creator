@@ -114,11 +114,17 @@ export function BottomNav() {
     measured.current = true;
   }, [activeHref, moveTo]);
 
+  const activeRef = useRef(activeHref);
+
+  useEffect(() => {
+    activeRef.current = activeHref;
+  }, [activeHref]);
+
   useEffect(() => {
     const bar = barRef.current;
     if (!bar) return;
 
-    const remeasure = () => moveTo(activeHref, false);
+    const remeasure = () => moveTo(activeRef.current, false);
     const observer = new ResizeObserver(remeasure);
     observer.observe(bar);
     const frame = requestAnimationFrame(remeasure);
@@ -131,7 +137,7 @@ export function BottomNav() {
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [activeHref, moveTo]);
+  }, [moveTo]);
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.9rem,env(safe-area-inset-bottom))]">
@@ -143,7 +149,7 @@ export function BottomNav() {
         <span
           ref={pillRef}
           aria-hidden="true"
-          className="absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-[transform,width] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,width]"
+          className="bottom-nav-pill absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-[transform,width] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,width]"
           style={{ width: 0, transform: "translateX(0)" }}
         />
         {navItems.map((item) => {
