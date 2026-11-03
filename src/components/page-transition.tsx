@@ -3,22 +3,29 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const VEIL_MIN_MS = 240;
-const VEIL_LEAD_MS = 180;
-const SAFETY_MS = 5000;
+const COVER_MS = 360;
+const REVEAL_MS = 420;
+const SAFETY_MS = 4000;
 
-type VeilPhase = "idle" | "in" | "out";
+type Phase = "idle" | "cover" | "reveal";
+
+function clearTimer(ref: { current: number | null }) {
+  if (ref.current !== null) {
+    window.clearTimeout(ref.current);
+    ref.current = null;
+  }
+}
 
 export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
-  const [veil, setVeil] = useState<VeilPhase>("idle");
+  const [phase, setPhase] = useState<Phase>("idle");
   const busy = useRef(false);
   const firstPathname = useRef(true);
   const navStartedAt = useRef(0);
+  const coverTimer = useRef<number | null>(null);
+  const revealTimer = useRef<number | null>(null);
   const safetyTimer = useRef<number | null>(null);
-  const pushTimer = useRef<number | null>(null);
-  const outTimer = useRef<number | null>(null);
 
   useEffect(() => {
     if (firstPathname.current) {
@@ -26,44 +33,34 @@ export function PageTransition() {
       return;
     }
 
-    if (safetyTimer.current !== null) {
-      window.clearTimeout(safetyTimer.current);
-      safetyTimer.current = null;
-    }
-    if (pushTimer.current !== null) {
-      window.clearTimeout(pushTimer.current);
-      pushTimer.current = null;
-    }
+    if (!busy.current) return;
 
-    busy.current = false;
+    clearTimer(coverTimer);
+    clearTimer(safetyTimer);
 
     const elapsed = performance.now() - navStartedAt.current;
-    const wait = Math.max(0, VEIL_MIN_MS - elapsed);
+    const wait = Math.max(0, COVER_MS - elapsed);
 
-    if (outTimer.current !== null) {
-      window.clearTimeout(outTimer.current);
-    }
-    outTimer.current = window.setTimeout(() => setVeil("out"), wait);
+    clearTimer(revealTimer);
+    revealTimer.current = window.setTimeout(() => {
+      setPhase("reveal");
+      revealTimer.current = window.setTimeout(() => {
+        setPhase("idle");
+        busy.current = false;
+        revealTimer.current = null;
+      }, REVEAL_MS);
+    }, wait);
 
     return () => {
-      if (outTimer.current !== null) {
-        window.clearTimeout(outTimer.current);
-        outTimer.current = null;
-      }
+      clearTimer(revealTimer);
     };
   }, [pathname]);
 
   useEffect(() => {
     return () => {
-      if (safetyTimer.current !== null) {
-        window.clearTimeout(safetyTimer.current);
-      }
-      if (pushTimer.current !== null) {
-        window.clearTimeout(pushTimer.current);
-      }
-      if (outTimer.current !== null) {
-        window.clearTimeout(outTimer.current);
-      }
+      clearTimer(coverTimer);
+      clearTimer(revealTimer);
+      clearTimer(safetyTimer);
     };
   }, []);
 
@@ -111,29 +108,33 @@ export function PageTransition() {
       event.preventDefault();
       if (busy.current) return;
 
-      if (outTimer.current !== null) {
-        window.clearTimeout(outTimer.current);
-        outTimer.current = null;
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const next = `${url.pathname}${url.search}${url.hash}`;
+
+      if (reduced) {
+        router.push(next);
+        return;
       }
 
       busy.current = true;
       navStartedAt.current = performance.now();
-      setVeil("in");
+      clearTimer(coverTimer);
+      clearTimer(revealTimer);
+      clearTimer(safetyTimer);
+      setPhase("cover");
 
-      if (safetyTimer.current !== null) {
-        window.clearTimeout(safetyTimer.current);
-      }
+      coverTimer.current = window.setTimeout(() => {
+        coverTimer.current = null;
+        router.push(next);
+      }, COVER_MS);
+
       safetyTimer.current = window.setTimeout(() => {
-        setVeil("out");
+        setPhase("idle");
         busy.current = false;
+        safetyTimer.current = null;
       }, SAFETY_MS);
-
-      if (pushTimer.current !== null) {
-        window.clearTimeout(pushTimer.current);
-      }
-      pushTimer.current = window.setTimeout(() => {
-        router.push(`${url.pathname}${url.search}${url.hash}`);
-      }, VEIL_LEAD_MS);
     };
 
     document.addEventListener("click", onClick, true);
@@ -143,8 +144,12 @@ export function PageTransition() {
   return (
     <div
       aria-hidden="true"
-      className={`route-veil${
-        veil === "in" ? " is-in" : veil === "out" ? " is-out" : ""
+      className={`route-curtain${
+        phase === "cover"
+          ? " is-cover"
+          : phase === "reveal"
+            ? " is-reveal"
+            : " is-reset"
       }`}
     />
   );
