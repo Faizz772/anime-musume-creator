@@ -231,27 +231,27 @@
   }
 }
 
-.page-enter > main > * {
+.page-enter.is-entering > main > * {
   animation: page-rise-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.page-enter > main > *:nth-child(2) {
+.page-enter.is-entering > main > *:nth-child(2) {
   animation-delay: 40ms;
 }
 
-.page-enter > main > *:nth-child(3) {
+.page-enter.is-entering > main > *:nth-child(3) {
   animation-delay: 80ms;
 }
 
-.page-enter > main > *:nth-child(4) {
+.page-enter.is-entering > main > *:nth-child(4) {
   animation-delay: 120ms;
 }
 
-.page-enter > main > *:nth-child(5) {
+.page-enter.is-entering > main > *:nth-child(5) {
   animation-delay: 160ms;
 }
 
-.page-enter > main > *:nth-child(6) {
+.page-enter.is-entering > main > *:nth-child(6) {
   animation-delay: 200ms;
 }
 
@@ -425,7 +425,7 @@
     animation: none;
   }
 
-  .page-enter > main > * {
+  .page-enter.is-entering > main > * {
     animation: none;
   }
 
