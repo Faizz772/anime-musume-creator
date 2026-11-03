@@ -1,66 +1,45 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { navItems } from "@/lib/clan";
 
-const COVER_MS = 360;
-const REVEAL_MS = 420;
+const EXIT_MS = 200;
 const SAFETY_MS = 4000;
 
-type Phase = "idle" | "cover" | "reveal";
-
-function clearTimer(ref: { current: number | null }) {
-  if (ref.current !== null) {
-    window.clearTimeout(ref.current);
-    ref.current = null;
-  }
+function navIndex(pathname: string) {
+  const index = navItems.findIndex((item) =>
+    item.href === "/"
+      ? pathname === "/"
+      : pathname === item.href || pathname.startsWith(`${item.href}/`),
+  );
+  return index === -1 ? 0 : index;
 }
 
 export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
-  const [phase, setPhase] = useState<Phase>("idle");
   const busy = useRef(false);
-  const firstPathname = useRef(true);
-  const navStartedAt = useRef(0);
-  const coverTimer = useRef<number | null>(null);
-  const revealTimer = useRef<number | null>(null);
+  const exitTimer = useRef<number | null>(null);
   const safetyTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    if (firstPathname.current) {
-      firstPathname.current = false;
-      return;
+    busy.current = false;
+    if (exitTimer.current !== null) {
+      window.clearTimeout(exitTimer.current);
+      exitTimer.current = null;
     }
-
-    if (!busy.current) return;
-
-    clearTimer(coverTimer);
-    clearTimer(safetyTimer);
-
-    const elapsed = performance.now() - navStartedAt.current;
-    const wait = Math.max(0, COVER_MS - elapsed);
-
-    clearTimer(revealTimer);
-    revealTimer.current = window.setTimeout(() => {
-      setPhase("reveal");
-      revealTimer.current = window.setTimeout(() => {
-        setPhase("idle");
-        busy.current = false;
-        revealTimer.current = null;
-      }, REVEAL_MS);
-    }, wait);
-
-    return () => {
-      clearTimer(revealTimer);
-    };
+    if (safetyTimer.current !== null) {
+      window.clearTimeout(safetyTimer.current);
+      safetyTimer.current = null;
+    }
   }, [pathname]);
 
   useEffect(() => {
     return () => {
-      clearTimer(coverTimer);
-      clearTimer(revealTimer);
-      clearTimer(safetyTimer);
+      if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
+      if (safetyTimer.current !== null)
+        window.clearTimeout(safetyTimer.current);
     };
   }, []);
 
@@ -108,30 +87,29 @@ export function PageTransition() {
       event.preventDefault();
       if (busy.current) return;
 
+      const next = `${url.pathname}${url.search}${url.hash}`;
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const next = `${url.pathname}${url.search}${url.hash}`;
 
-      if (reduced) {
+      const current = document.querySelector<HTMLElement>(".page-enter");
+      if (reduced || !current) {
         router.push(next);
         return;
       }
 
       busy.current = true;
-      navStartedAt.current = performance.now();
-      clearTimer(coverTimer);
-      clearTimer(revealTimer);
-      clearTimer(safetyTimer);
-      setPhase("cover");
+      const dir = navIndex(url.pathname) >= navIndex(window.location.pathname) ? 1 : -1;
+      current.style.setProperty("--page-dir", String(dir));
+      current.classList.add("is-leaving");
 
-      coverTimer.current = window.setTimeout(() => {
-        coverTimer.current = null;
+      exitTimer.current = window.setTimeout(() => {
+        exitTimer.current = null;
         router.push(next);
-      }, COVER_MS);
+      }, EXIT_MS);
 
       safetyTimer.current = window.setTimeout(() => {
-        setPhase("idle");
+        current.classList.remove("is-leaving");
         busy.current = false;
         safetyTimer.current = null;
       }, SAFETY_MS);
@@ -141,16 +119,5 @@ export function PageTransition() {
     return () => document.removeEventListener("click", onClick, true);
   }, [router]);
 
-  return (
-    <div
-      aria-hidden="true"
-      className={`route-curtain${
-        phase === "cover"
-          ? " is-cover"
-          : phase === "reveal"
-            ? " is-reveal"
-            : " is-reset"
-      }`}
-    />
-  );
+  return null;
 }
