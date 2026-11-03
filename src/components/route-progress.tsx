@@ -8,7 +8,7 @@ type TimerKey = "done" | "safety" | "initial";
 type Timers = Partial<Record<TimerKey, number>>;
 
 const MIN_VISIBLE = 400;
-const NAV_MIN = 1000;
+const NAV_MIN = 1100;
 const DONE_HOLD = 450;
 const SAFETY = 5000;
 

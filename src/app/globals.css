@@ -208,7 +208,7 @@
   transform-origin: left;
   will-change: transform;
   background: var(--color-accent);
-  animation: route-bar-fill 1000ms var(--ease-out-expo) both;
+  animation: route-bar-fill 1100ms var(--ease-out-expo) both;
 }
 
 @keyframes route-bar-fill {
@@ -255,22 +255,7 @@
   animation-delay: 200ms;
 }
 
-.page-enter.is-leaving,
-.page-freeze.is-leaving {
-  pointer-events: none;
-}
 
-.page-enter.is-leaving > main > *,
-.page-freeze.is-leaving > main > * {
-  animation: page-fade-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
-}
-
-@keyframes page-fade-out {
-  to {
-    opacity: 0;
-    transform: translateX(calc(var(--page-dir, 1) * -12px));
-  }
-}
 
 .splash-screen {
   position: fixed;
@@ -431,13 +416,8 @@
     animation-duration: 420ms !important;
   }
 
-  .page-enter.is-leaving > main > *,
-  .page-freeze.is-leaving > main > * {
-    animation-duration: 200ms !important;
-  }
-
   .route-bar-fill {
-    animation-duration: 1000ms !important;
+    animation-duration: 1100ms !important;
   }
 
   .splash-mark,
