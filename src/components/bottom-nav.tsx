@@ -98,14 +98,14 @@ export function BottomNav() {
     if (!animate) {
       const previous = pill.style.transition;
       pill.style.transition = "none";
-      pill.style.transform = `translateX(${x}px)`;
+      pill.style.transform = `translate3d(${x}px, 0, 0)`;
       pill.style.width = `${width}px`;
       void pill.offsetWidth;
       pill.style.transition = previous;
       return;
     }
 
-    pill.style.transform = `translateX(${x}px)`;
+    pill.style.transform = `translate3d(${x}px, 0, 0)`;
     pill.style.width = `${width}px`;
   }, []);
 
@@ -144,13 +144,13 @@ export function BottomNav() {
       <nav
         ref={barRef}
         aria-label="Navigasi utama"
-        className="pointer-events-auto relative flex w-full max-w-2xl items-stretch gap-0.5 overflow-x-auto rounded-full border border-line/80 bg-surface/85 p-1.5 shadow-[0_24px_70px_-24px_rgba(0,0,0,0.95)] backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="pointer-events-auto relative flex w-full max-w-2xl items-stretch gap-0.5 overflow-hidden rounded-full border border-line/80 bg-surface/85 p-1.5 shadow-[0_24px_70px_-24px_rgba(0,0,0,0.95)] backdrop-blur-xl"
       >
         <span
           ref={pillRef}
           aria-hidden="true"
-          className="bottom-nav-pill absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-[transform,width] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,width]"
-          style={{ width: 0, transform: "translateX(0)" }}
+          className="bottom-nav-pill absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-transform duration-[360ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-transform"
+          style={{ width: 0, transform: "translate3d(0, 0, 0)" }}
         />
         {navItems.map((item) => {
           const active = item.href === activeHref;
@@ -159,6 +159,7 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
+              onClick={() => moveTo(item.href, measured.current)}
               ref={(node) => {
                 if (node) itemRefs.current.set(item.href, node);
                 else itemRefs.current.delete(item.href);
