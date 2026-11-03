@@ -1,20 +1,54 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const VEIL_MIN_MS = 240;
+const VEIL_OUT_MS = 280;
+const SAFETY_MS = 5000;
+
+type VeilPhase = "idle" | "in" | "out";
 
 export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
+  const [veil, setVeil] = useState<VeilPhase>("idle");
   const busy = useRef(false);
-  const leaving = useRef<Element | null>(null);
+  const firstPathname = useRef(true);
+  const navStartedAt = useRef(0);
+  const safetyTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    document
-      .querySelectorAll(".page-enter.is-leaving")
-      .forEach((element) => element.classList.remove("is-leaving"));
-    busy.current = false;
+    if (firstPathname.current) {
+      firstPathname.current = false;
+      return;
+    }
+
+    if (safetyTimer.current !== null) {
+      window.clearTimeout(safetyTimer.current);
+      safetyTimer.current = null;
+    }
+
+    const elapsed = performance.now() - navStartedAt.current;
+    const wait = Math.max(0, VEIL_MIN_MS - elapsed);
+    const outTimer = window.setTimeout(() => setVeil("out"), wait);
+    const busyTimer = window.setTimeout(() => {
+      busy.current = false;
+    }, wait + VEIL_OUT_MS);
+
+    return () => {
+      window.clearTimeout(outTimer);
+      window.clearTimeout(busyTimer);
+    };
   }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (safetyTimer.current !== null) {
+        window.clearTimeout(safetyTimer.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
@@ -59,24 +93,32 @@ export function PageTransition() {
 
       event.preventDefault();
       if (busy.current) return;
-      busy.current = true;
 
-      const page = document.querySelector(".page-enter");
-      if (page) {
-        leaving.current = page;
-        page.classList.add("is-leaving");
+      busy.current = true;
+      navStartedAt.current = performance.now();
+      setVeil("in");
+
+      if (safetyTimer.current !== null) {
+        window.clearTimeout(safetyTimer.current);
       }
+      safetyTimer.current = window.setTimeout(() => {
+        setVeil("out");
+        busy.current = false;
+      }, SAFETY_MS);
 
       router.push(`${url.pathname}${url.search}${url.hash}`);
-      window.setTimeout(() => {
-        leaving.current?.classList.remove("is-leaving");
-        busy.current = false;
-      }, 600);
     };
 
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
   }, [router]);
 
-  return null;
+  return (
+    <div
+      aria-hidden="true"
+      className={`route-veil${
+        veil === "in" ? " is-in" : veil === "out" ? " is-out" : ""
+      }`}
+    />
+  );
 }

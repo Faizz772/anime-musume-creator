@@ -27,10 +27,12 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
     background-color: var(--color-night);
   }
 
   body {
+    overflow-x: clip;
     color: var(--color-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -184,20 +186,28 @@
   transform: translateX(130%);
 }
 
-.page-enter {
-  will-change: opacity, transform;
-}
-
-.page-enter.is-leaving {
+.route-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
   pointer-events: none;
-  animation: page-leave 360ms cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  opacity: 0;
+  background: color-mix(in srgb, var(--color-night) 78%, transparent);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  transition: opacity 180ms var(--ease-soft);
+  will-change: opacity;
 }
 
-@keyframes page-leave {
-  to {
-    opacity: 0;
-    transform: translateX(-12px);
-  }
+.route-veil.is-in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.route-veil.is-out {
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 280ms;
 }
 
 .route-bar {
@@ -425,6 +435,10 @@
 
   .blossom-spin {
     animation: none;
+  }
+
+  .route-veil {
+    display: none;
   }
 
   .page-enter > main > * {

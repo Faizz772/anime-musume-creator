@@ -117,6 +117,7 @@ export function GalleryLightbox({ item, onClose }: GalleryLightboxProps) {
               </span>
               <Link
                 href={`/galeri/${item.id}`}
+                onClick={onClose}
                 className="text-xs font-semibold text-accent transition-colors hover:text-ice"
               >
                 Buka halaman karya
