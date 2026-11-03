@@ -231,27 +231,27 @@
   }
 }
 
-.page-enter.is-entering > main > * {
+.page-enter > main > * {
   animation: page-rise-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.page-enter.is-entering > main > *:nth-child(2) {
+.page-enter > main > *:nth-child(2) {
   animation-delay: 40ms;
 }
 
-.page-enter.is-entering > main > *:nth-child(3) {
+.page-enter > main > *:nth-child(3) {
   animation-delay: 80ms;
 }
 
-.page-enter.is-entering > main > *:nth-child(4) {
+.page-enter > main > *:nth-child(4) {
   animation-delay: 120ms;
 }
 
-.page-enter.is-entering > main > *:nth-child(5) {
+.page-enter > main > *:nth-child(5) {
   animation-delay: 160ms;
 }
 
-.page-enter.is-entering > main > *:nth-child(6) {
+.page-enter > main > *:nth-child(6) {
   animation-delay: 200ms;
 }
 
@@ -425,8 +425,16 @@
     animation: none;
   }
 
-  .page-enter.is-entering > main > * {
-    animation: none;
+  .page-enter > main > * {
+    animation-duration: 420ms !important;
+  }
+
+  .page-enter.is-leaving > main > * {
+    animation-duration: 200ms !important;
+  }
+
+  .route-bar-fill {
+    animation-duration: 1000ms !important;
   }
 
   .splash-mark,

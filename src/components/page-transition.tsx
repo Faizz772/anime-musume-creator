@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import { navItems } from "@/lib/clan";
 
 const EXIT_MS = 200;
-const ENTER_MS = 620;
 const SAFETY_MS = 4000;
 
 function navIndex(pathname: string) {
@@ -21,9 +20,7 @@ export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
   const busy = useRef(false);
-  const firstPathname = useRef(true);
   const exitTimer = useRef<number | null>(null);
-  const enterTimer = useRef<number | null>(null);
   const safetyTimer = useRef<number | null>(null);
 
   useEffect(() => {
@@ -36,39 +33,11 @@ export function PageTransition() {
       window.clearTimeout(safetyTimer.current);
       safetyTimer.current = null;
     }
-    if (enterTimer.current !== null) {
-      window.clearTimeout(enterTimer.current);
-      enterTimer.current = null;
-    }
-
-    const current = document.querySelector<HTMLElement>(".page-enter");
-    current?.classList.remove("is-leaving");
-
-    if (firstPathname.current) {
-      firstPathname.current = false;
-      return;
-    }
-
-    if (
-      !current ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-
-    current.classList.remove("is-entering");
-    void current.offsetWidth;
-    current.classList.add("is-entering");
-    enterTimer.current = window.setTimeout(() => {
-      current.classList.remove("is-entering");
-      enterTimer.current = null;
-    }, ENTER_MS);
   }, [pathname]);
 
   useEffect(() => {
     return () => {
       if (exitTimer.current !== null) window.clearTimeout(exitTimer.current);
-      if (enterTimer.current !== null) window.clearTimeout(enterTimer.current);
       if (safetyTimer.current !== null)
         window.clearTimeout(safetyTimer.current);
     };
@@ -119,12 +88,8 @@ export function PageTransition() {
       if (busy.current) return;
 
       const next = `${url.pathname}${url.search}${url.hash}`;
-      const reduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-
       const current = document.querySelector<HTMLElement>(".page-enter");
-      if (reduced || !current) {
+      if (!current) {
         router.push(next);
         return;
       }
