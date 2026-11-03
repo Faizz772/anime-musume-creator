@@ -208,7 +208,15 @@
   transform-origin: left;
   will-change: transform;
   background: var(--color-accent);
+  transition: transform 160ms var(--ease-out-expo);
+}
+
+.route-bar[data-phase="loading"] .route-bar-fill {
   animation: route-bar-fill 1100ms var(--ease-out-expo) both;
+}
+
+.route-bar[data-phase="done"] .route-bar-fill {
+  transform: scaleX(1);
 }
 
 @keyframes route-bar-fill {
@@ -216,7 +224,7 @@
     transform: scaleX(0);
   }
   to {
-    transform: scaleX(1);
+    transform: scaleX(0.9);
   }
 }
 

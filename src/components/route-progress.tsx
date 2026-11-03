@@ -168,6 +168,7 @@ export function RouteProgress() {
         aria-hidden="true"
         className="route-bar"
         data-active={phase !== "idle"}
+        data-phase={phase}
       >
         <div key={run} className="route-bar-fill" />
       </div>
