@@ -130,7 +130,13 @@ export function BottomNav() {
     const bar = barRef.current;
     if (!bar) return;
 
-    const remeasure = () => moveTo(activeRef.current, false);
+    let stableWidth = -1;
+    const remeasure = () => {
+      const width = bar.offsetWidth;
+      if (width === stableWidth) return;
+      stableWidth = width;
+      moveTo(activeRef.current, false);
+    };
     const observer = new ResizeObserver(remeasure);
     observer.observe(bar);
     const frame = requestAnimationFrame(remeasure);
@@ -155,7 +161,7 @@ export function BottomNav() {
         <span
           ref={pillRef}
           aria-hidden="true"
-          className="bottom-nav-pill absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-transform duration-[360ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-transform"
+          className="bottom-nav-pill absolute inset-y-1.5 left-0 z-0 rounded-full bg-ice shadow-[0_10px_28px_-10px_rgba(216,229,255,0.55)] transition-[transform,width] duration-[360ms] ease-[cubic-bezier(0.65,0,0.35,1)] will-change-[transform,width]"
           style={{ width: 0, transform: "translate3d(0, 0, 0)" }}
         />
         {navItems.map((item) => {
@@ -167,6 +173,10 @@ export function BottomNav() {
               prefetch
               aria-current={active ? "page" : undefined}
               onClick={() => {
+                moveTo(item.href, measured.current);
+              }}
+              onPointerDown={() => {
+                if (item.href === activeRef.current) return;
                 tapFeedback();
                 moveTo(item.href, measured.current);
               }}
