@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-night: #14100f;
-  --color-night-2: #171312;
-  --color-surface: #1d1817;
-  --color-surface-2: #272120;
-  --color-line: #312a28;
-  --color-line-soft: #241e1d;
-  --color-text: #f2ece4;
-  --color-muted: #a89e94;
-  --color-accent: #426696;
-  --color-accent-2: #6f9ad0;
+  --color-night: #0f1826;
+  --color-night-2: #121d2e;
+  --color-surface: #16233a;
+  --color-surface-2: #1e2f4d;
+  --color-line: #26374f;
+  --color-line-soft: #1b2a40;
+  --color-text: #e8f1f8;
+  --color-muted: #a8bdcf;
+  --color-accent: #2e6890;
+  --color-accent-2: #7fb8d9;
+  --color-gold: #c9a961;
   --color-ice: #f6efe7;
   --color-danger: #d95445;
 
@@ -135,10 +136,10 @@
 @keyframes logo-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(66, 102, 150, 0);
+    box-shadow: 0 0 0 0 rgba(46, 104, 144, 0);
   }
   50% {
-    box-shadow: 0 0 10px 0 rgba(66, 102, 150, 0.30);
+    box-shadow: 0 0 10px 0 rgba(46, 104, 144, 0.32);
   }
 }
 
@@ -260,7 +261,7 @@
   background:
     radial-gradient(
       55% 45% at 50% 40%,
-      rgba(66, 102, 150, 0.14),
+      rgba(46, 104, 144, 0.16),
       transparent 72%
     ),
     var(--color-night);

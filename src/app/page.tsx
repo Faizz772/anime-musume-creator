@@ -89,7 +89,7 @@ export default async function HomePage() {
               <div className="lg:col-span-3">
                 <p
                   aria-hidden="true"
-                  className="font-heading text-5xl font-black text-accent/20"
+                  className="font-heading text-5xl font-black text-gold/25"
                 >
                   01
                 </p>

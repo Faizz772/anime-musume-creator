@@ -73,7 +73,7 @@ export default function TentangPage() {
                   <div className="grid gap-3 border-b border-line-soft py-7 sm:grid-cols-[3rem_1fr] sm:gap-6">
                     <span
                       aria-hidden="true"
-                      className="font-heading text-2xl font-black text-accent/30"
+                      className="font-heading text-2xl font-black text-gold/35"
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>

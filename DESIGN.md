@@ -13,33 +13,37 @@ tegas yang dipakai hemat.
 
 1. Permukaan, bukan garis. Kartu dipisahkan oleh perbedaan nada dan jarak, bukan border.
 2. Satu aksen, satu tempat. Vermilion hanya untuk hal yang benar-benar ingin ditunjuk.
-3. Hangat di latar, biru di aksen. Latar tetap arang hangat; aksen biru baja diambil
-   dari logo (hue 214deg) supaya logo menyatu. Yang dihindari bukan biru itu sendiri,
-   melainkan latar biru-ke-ungu bergradien ala default AI.
+3. Biru malam yang rata, bukan biru bergradien. Latar biru tua pekat dengan satu nada,
+   aksen biru laut lebih pekat, teks putih kebiruan. Yang dihindari adalah latar biru
+   terang bergradien ke ungu, bukan biru itu sendiri.
 4. Datar dengan sengaja. Tidak ada gradient latar penuh halaman, tidak ada glow tersebar.
 
 ## Warna
 
+Palet Furina: biru laut malam, putih kebiruan, emas opera.
+
 | Peran | Hex | Nama |
 |---|---|---|
-| Latar | `#14100f` | arang hangat |
-| Permukaan | `#1d1817` | arang naik |
-| Permukaan tinggi | `#272120` | arang terang |
-| Teks | `#f2ece4` | gading |
-| Teks redup | `#a89e94` | gading pudar |
-| Aksen | `#426696` | biru baja (dari logo) |
-| Aksen terang | `#6f9ad0` | biru baja muda |
-| Bahaya | `#d95445` | vermilion bahaya |
+| Latar | `#0f1826` | biru malam |
+| Permukaan | `#16233a` | biru malam naik |
+| Permukaan tinggi | `#1e2f4d` | biru malam terang |
+| Teks | `#e8f1f8` | putih kebiruan |
+| Teks redup | `#a8bdcf` | biru kelabu |
+| Aksen | `#2e6890` | biru laut |
+| Aksen terang | `#7fb8d9` | biru langit |
+| Emas | `#c9a961` | emas opera |
+| Bahaya | `#d95445` | merah bahaya |
 
 Aturan:
 
-- Aksen maksimal 2 kemunculan per layar.
-- Teks aksen di atas latar gelap memakai `accent-2` (#6f9ad0), karena `accent`
-  (#426696) hanya lolos 3.22:1 terhadap latar dan tidak memenuhi 4.5:1 untuk teks normal.
-- Tidak ada gradient latar. `.page-bg` diganti warna solid.
+- Emas hanya untuk ornamen kecil: penanda label section, nomor index halaman,
+  garis aksen. Bukan untuk tombol, bukan untuk teks isi.
+- Tombol terisi memakai `accent` dengan teks `ice` (5.26:1).
+- Teks aksen memakai `accent-2` (8.28:1 di latar).
+- Aksen maksimal 2 kemunculan per layar di luar ornamen emas.
+- Tidak ada gradient latar. `.page-bg` warna solid.
 - Tidak ada gradient teks.
 - Glow maksimal 1 elemen (logo).
-- `backdrop-blur` hanya di header.
 
 ## Tipografi
 
