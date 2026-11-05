@@ -13,7 +13,9 @@ tegas yang dipakai hemat.
 
 1. Permukaan, bukan garis. Kartu dipisahkan oleh perbedaan nada dan jarak, bukan border.
 2. Satu aksen, satu tempat. Vermilion hanya untuk hal yang benar-benar ingin ditunjuk.
-3. Hangat, bukan biru. Tidak ada biru sebagai warna aksen.
+3. Hangat di latar, biru di aksen. Latar tetap arang hangat; aksen biru baja diambil
+   dari logo (hue 214deg) supaya logo menyatu. Yang dihindari bukan biru itu sendiri,
+   melainkan latar biru-ke-ungu bergradien ala default AI.
 4. Datar dengan sengaja. Tidak ada gradient latar penuh halaman, tidak ada glow tersebar.
 
 ## Warna
@@ -25,15 +27,15 @@ tegas yang dipakai hemat.
 | Permukaan tinggi | `#272120` | arang terang |
 | Teks | `#f2ece4` | gading |
 | Teks redup | `#a89e94` | gading pudar |
-| Aksen | `#bd3d28` | vermilion |
-| Aksen terang | `#e0644a` | vermilion muda |
+| Aksen | `#426696` | biru baja (dari logo) |
+| Aksen terang | `#6f9ad0` | biru baja muda |
 | Bahaya | `#d95445` | vermilion bahaya |
 
 Aturan:
 
 - Aksen maksimal 2 kemunculan per layar.
-- Teks aksen di atas latar gelap memakai `accent-2` (#e0644a), karena `accent`
-  hanya lolos 3.5:1 terhadap latar dan tidak memenuhi 4.5:1 untuk teks normal.
+- Teks aksen di atas latar gelap memakai `accent-2` (#6f9ad0), karena `accent`
+  (#426696) hanya lolos 3.22:1 terhadap latar dan tidak memenuhi 4.5:1 untuk teks normal.
 - Tidak ada gradient latar. `.page-bg` diganti warna solid.
 - Tidak ada gradient teks.
 - Glow maksimal 1 elemen (logo).
@@ -69,7 +71,7 @@ ENERGY 2 / RHYTHM 2 / MOTION 2.
 
 ## Larangan keras
 
-- Gradient biru ke ungu, atau biru sebagai aksen.
+- Gradient biru ke ungu, atau latar bergradien biru.
 - Gradient latar penuh halaman.
 - Gradient pada teks.
 - Border tipis pada kartu sebagai pemisah utama.
