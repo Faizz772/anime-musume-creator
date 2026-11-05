@@ -25,7 +25,7 @@ export default function KontakPage() {
         title="Ngobrol soal clan, karya, atau seleksi."
         intro="Jalur paling cepat adalah grup WhatsApp. Admin dan anggota aktif di sana."
         aside={
-          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+          <aside className="rounded-2xl bg-surface p-5">
             <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
               Respons
             </p>
@@ -40,7 +40,7 @@ export default function KontakPage() {
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
         <div className="grid gap-4 md:grid-cols-12">
           <Reveal className="md:col-span-7">
-            <div className="relative overflow-hidden rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8">
+            <div className="relative overflow-hidden rounded-2xl bg-surface-2 p-6 sm:p-8">
               <Blossom className="absolute -right-8 -top-8 size-40 text-accent/10" />
               <div className="relative">
                 <SectionLabel>WhatsApp</SectionLabel>
@@ -59,7 +59,7 @@ export default function KontakPage() {
           </Reveal>
 
           <Reveal delay={0.08} className="md:col-span-5">
-            <div className="h-full rounded-2xl border border-line bg-surface/60 p-6 sm:p-8">
+            <div className="h-full rounded-2xl bg-surface p-6 sm:p-8">
               <h2 className="font-heading text-base font-bold">
                 Sebelum menghubungi
               </h2>

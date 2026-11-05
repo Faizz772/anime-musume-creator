@@ -26,7 +26,7 @@ export function GalleryCard({
   };
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-line bg-surface transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/50">
+    <article className="group relative overflow-hidden rounded-xl bg-surface transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1">
       <div
         ref={mediaRef}
         className="relative aspect-[3/4] overflow-hidden bg-night-2"
@@ -59,7 +59,7 @@ export function GalleryCard({
                 </svg>
               </span>
             </span>
-            <span className="absolute left-2 top-2 rounded-full border border-accent/40 bg-night/80 px-2 py-0.5 text-[10px] font-semibold text-accent">
+            <span className="absolute left-2 top-2 rounded-full border border-accent/40 bg-night/80 px-2 py-0.5 text-[10px] font-semibold text-accent-2">
               MP4
             </span>
           </>
@@ -80,13 +80,13 @@ export function GalleryCard({
           {item.title}
         </h3>
         {item.author ? (
-          <p className="mt-0.5 text-[11px] text-accent">{item.author}</p>
+          <p className="mt-0.5 text-[11px] text-accent-2">{item.author}</p>
         ) : null}
         {item.tags.length > 0 ? (
           <ul className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
             {item.tags.map((tag) => (
               <li key={tag} className="text-[10px] text-muted">
-                <span aria-hidden="true" className="text-accent">
+                <span aria-hidden="true" className="text-accent-2">
                   #
                 </span>
                 {tag}

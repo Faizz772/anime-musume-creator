@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_0.5fr] lg:items-end">
           <div>
-            <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+            <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-2">
               Clan Anime Musume Creator
             </p>
             <p className="mt-4 max-w-3xl font-heading text-[clamp(2.4rem,7vw,5rem)] font-black leading-[0.92] tracking-[-0.04em]">

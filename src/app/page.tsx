@@ -45,7 +45,7 @@ export default async function HomePage() {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-2xl border border-line bg-surface/60 p-5 sm:p-6">
+              <div className="rounded-2xl bg-surface p-5 sm:p-6">
                 <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
                   Sekilas
                 </p>
@@ -136,7 +136,7 @@ export default async function HomePage() {
           <div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {coreTeam.map((member, index) => (
               <Reveal key={member.name} delay={index * 0.06}>
-                <article className="group flex h-full flex-col rounded-2xl border border-line bg-surface/70 p-5 transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/50">
+                <article className="group flex h-full flex-col rounded-2xl bg-surface-2 p-5 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1">
                   <MemberAvatar
                     src={member.avatar}
                     initials={member.initials}
@@ -144,7 +144,7 @@ export default async function HomePage() {
                     className="size-16 text-lg"
                   />
                   <div className="mt-5 flex items-center justify-between gap-2">
-                    <span className="text-[11px] text-accent">
+                    <span className="text-[11px] text-accent-2">
                       {member.username}
                     </span>
                     <RoleBadge role={member.role} />
@@ -192,7 +192,7 @@ export default async function HomePage() {
       <section className="border-t border-line-soft">
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <Reveal>
-            <div className="relative overflow-hidden rounded-2xl border border-accent/25 bg-surface/60 p-6 sm:p-10">
+            <div className="relative overflow-hidden rounded-2xl bg-surface-2 p-6 sm:p-10">
               <Blossom className="absolute -right-10 -top-10 size-48 text-accent/10" />
               <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>

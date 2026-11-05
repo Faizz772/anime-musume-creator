@@ -33,7 +33,7 @@ export default function SeleksiPage() {
         title="Pintu masuk anggota baru."
         intro="Seleksi dibuka lewat grup WhatsApp. Baca langkahnya, lalu masuk saat kamu sudah siap."
         aside={
-          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+          <aside className="rounded-2xl bg-surface p-5">
             <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
               Jalur
             </p>
@@ -93,7 +93,7 @@ export default function SeleksiPage() {
 
           <div className="lg:col-span-5">
             <Reveal delay={0.1}>
-              <div className="rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8 lg:sticky lg:top-24">
+              <div className="rounded-2xl bg-surface-2 p-6 sm:p-8 lg:sticky lg:top-24">
                 <SectionLabel>Seleksi anggota</SectionLabel>
                 <h2 className="mt-3 font-heading text-2xl font-black tracking-tight sm:text-3xl">
                   Siap gabung?

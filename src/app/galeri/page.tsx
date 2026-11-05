@@ -23,7 +23,7 @@ export default async function GaleriPage() {
         title="Karya anggota, satu tempat."
         intro="Ilustrasi dan karakter buatan anggota clan. Karya terbaru tampil paling depan."
         aside={
-          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+          <aside className="rounded-2xl bg-surface p-5">
             <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
               Koleksi
             </p>

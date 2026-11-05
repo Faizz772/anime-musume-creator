@@ -6,7 +6,7 @@ const base =
 
 const styles = {
   primary:
-    "bg-accent text-night hover:bg-ice hover:shadow-[0_10px_30px_-16px_rgba(91,140,255,0.9)]",
+    "bg-accent text-ice hover:bg-accent-2",
   secondary:
     "border border-line bg-transparent text-text hover:border-accent/60 hover:bg-surface",
 } as const;

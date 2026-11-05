@@ -19,7 +19,7 @@ export default function TimPage() {
         title="Empat orang di balik clan."
         intro="Mereka yang menjaga arah, menjawab pertanyaan, dan menyambut anggota baru."
         aside={
-          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+          <aside className="rounded-2xl bg-surface p-5">
             <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
               Struktur
             </p>
@@ -43,7 +43,7 @@ export default function TimPage() {
 
       <section className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
         <Reveal>
-          <article className="rounded-2xl border border-accent/25 bg-surface/70 p-6 sm:p-8">
+          <article className="rounded-2xl bg-surface-2 p-6 sm:p-8">
             <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
               <div className="flex flex-col items-start gap-4 lg:col-span-4">
                 <MemberAvatar
@@ -54,7 +54,7 @@ export default function TimPage() {
                 <RoleBadge role="Owner" />
               </div>
               <div className="lg:col-span-8">
-                <p className="text-xs text-accent">{owner.username}</p>
+                <p className="text-xs text-accent-2">{owner.username}</p>
                 <h2 className="mt-1 font-heading text-3xl font-black tracking-tight sm:text-4xl">
                   {owner.name}
                 </h2>
@@ -69,7 +69,7 @@ export default function TimPage() {
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {admins.map((member, index) => (
             <Reveal key={member.name} delay={index * 0.06}>
-              <article className="flex h-full flex-col rounded-2xl border border-line bg-surface/60 p-5 transition-[transform,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-accent/50">
+              <article className="flex h-full flex-col rounded-2xl bg-surface p-5 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1">
                 <div className="flex items-start justify-between gap-3">
                   <MemberAvatar
                     src={member.avatar}
@@ -79,7 +79,7 @@ export default function TimPage() {
                   />
                   <RoleBadge role="Admin" />
                 </div>
-                <p className="mt-4 text-xs text-accent">{member.username}</p>
+                <p className="mt-4 text-xs text-accent-2">{member.username}</p>
                 <h3 className="font-heading text-lg font-bold">{member.name}</h3>
                 <p className="mt-2 text-xs leading-relaxed text-muted">
                   {member.task}

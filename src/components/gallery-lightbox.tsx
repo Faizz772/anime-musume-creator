@@ -74,7 +74,7 @@ export function GalleryLightbox({
           </svg>
         </button>
 
-        <div className="overflow-hidden rounded-2xl border border-line bg-night-2">
+        <div className="overflow-hidden rounded-2xl bg-night-2">
           <div
             className="relative bg-night-2"
             style={
@@ -117,13 +117,13 @@ export function GalleryLightbox({
                 {item.title}
               </h2>
               {item.author ? (
-                <p className="mt-1 text-xs text-accent">{item.author}</p>
+                <p className="mt-1 text-xs text-accent-2">{item.author}</p>
               ) : null}
               {item.tags.length > 0 ? (
                 <ul className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
                   {item.tags.map((tag) => (
                     <li key={tag} className="text-xs text-muted">
-                      <span aria-hidden="true" className="text-accent">
+                      <span aria-hidden="true" className="text-accent-2">
                         #
                       </span>
                       {tag}
@@ -139,7 +139,7 @@ export function GalleryLightbox({
               <Link
                 href={`/galeri/${item.id}`}
                 prefetch
-                className="text-xs font-semibold text-accent transition-colors hover:text-ice"
+                className="text-xs font-semibold text-accent-2 transition-colors hover:text-ice"
               >
                 Buka halaman karya
               </Link>

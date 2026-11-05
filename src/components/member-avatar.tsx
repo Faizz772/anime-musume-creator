@@ -15,8 +15,8 @@ export function MemberAvatar({
 }: MemberAvatarProps) {
   const tone =
     variant === "solid"
-      ? "bg-accent text-night ring-accent/40"
-      : "bg-surface-2 text-accent ring-white/10";
+      ? "bg-accent text-ice ring-accent/40"
+      : "bg-surface-2 text-accent-2 ring-white/10";
 
   return (
     <span

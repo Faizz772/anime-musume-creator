@@ -265,7 +265,7 @@ export function AdminDashboard({
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-heading text-sm font-bold text-accent">Admin</p>
+          <p className="font-heading text-sm font-bold text-accent-2">Admin</p>
           <h1 className="mt-2 font-heading text-3xl font-extrabold">
             Panel admin
           </h1>
@@ -288,7 +288,7 @@ export function AdminDashboard({
           role={status.kind === "error" ? "alert" : "status"}
           className={`mt-6 rounded-lg border px-4 py-3 text-sm ${
             status.kind === "error"
-              ? "border-red-400/40 bg-red-400/10 text-red-300"
+              ? "border-danger/40 bg-danger/10 text-danger"
               : "border-accent/40 bg-accent/10 text-ice"
           }`}
         >
@@ -535,7 +535,7 @@ export function AdminDashboard({
                       {item.title}
                     </p>
                     {item.author ? (
-                      <p className="mt-0.5 truncate text-[11px] text-accent">
+                      <p className="mt-0.5 truncate text-[11px] text-accent-2">
                         {item.author}
                       </p>
                     ) : null}

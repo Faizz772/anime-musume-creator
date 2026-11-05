@@ -69,7 +69,7 @@ export function GalleryBrowser({ items }: { items: GalleryItem[] }) {
             onClick={() => setTag(null)}
             className={`${chipBase} ${
               !tag
-                ? "border-accent bg-accent text-night"
+                ? "border-accent bg-accent text-ice"
                 : "border-line text-muted hover:border-accent/50 hover:text-text"
             }`}
           >
@@ -83,7 +83,7 @@ export function GalleryBrowser({ items }: { items: GalleryItem[] }) {
               onClick={() => setTag(tag === item ? null : item)}
               className={`${chipBase} ${
                 tag === item
-                  ? "border-accent bg-accent text-night"
+                  ? "border-accent bg-accent text-ice"
                   : "border-line text-muted hover:border-accent/50 hover:text-text"
               }`}
             >

@@ -9,7 +9,7 @@ type TextLinkProps = {
 
 export function TextLink({ href, children, external = false }: TextLinkProps) {
   const className =
-    "group inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent transition-colors duration-200 ease-out hover:text-ice";
+    "group inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-accent-2 transition-colors duration-200 ease-out hover:text-ice";
   const content = (
     <>
       {children}

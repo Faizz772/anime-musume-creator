@@ -110,7 +110,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
                 oleh{" "}
                 <Link
                   href="/tim"
-                  className="text-accent transition-colors hover:text-ice"
+                  className="text-accent-2 transition-colors hover:text-ice"
                 >
                   {item.author}
                 </Link>
@@ -129,7 +129,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
           {item.tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-full border border-line px-2.5 py-1 text-[11px] text-muted"
+              className="rounded-full bg-surface px-2.5 py-1 text-[11px] text-muted"
             >
               #{tag}
             </li>
@@ -137,7 +137,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
         </ul>
       ) : null}
 
-      <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-night-2">
+      <div className="mt-8 overflow-hidden rounded-2xl bg-night-2">
         {video ? (
           <video
             src={item.image_url}
@@ -167,7 +167,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
         </Link>
         <Link
           href="/seleksi"
-          className="text-sm font-semibold text-accent transition-colors duration-200 hover:text-ice"
+          className="text-sm font-semibold text-accent-2 transition-colors duration-200 hover:text-ice"
         >
           Gabung dan kirim karya
         </Link>

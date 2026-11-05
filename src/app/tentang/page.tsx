@@ -40,7 +40,7 @@ export default function TentangPage() {
         title="Ruang tumbuh untuk kreator anime musume."
         intro="Anime Musume Creator adalah wadah bagi pecinta anime dan kreator untuk tumbuh bareng: editor, desainer, content creator, dan siapa pun yang ingin berkarya. Lingkungannya aktif, profesional, dan saling mendukung."
         aside={
-          <aside className="rounded-2xl border border-line bg-surface/60 p-5">
+          <aside className="rounded-2xl bg-surface p-5">
             <p className="font-heading text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
               Fokus
             </p>
